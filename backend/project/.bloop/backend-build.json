@@ -1,16 +1,16 @@
 {
     "version": "1.4.0",
     "project": {
-        "name": "projetakka-build",
-        "directory": "H:\\Desktop\\ING2\\S2\\ProjetAkka\\project",
-        "workspaceDir": "H:\\Desktop\\ING2\\S2\\ProjetAkka\\project",
+        "name": "backend-build",
+        "directory": "H:\\Documents\\Cours\\Projet\\ProjetAkka\\backend\\project",
+        "workspaceDir": "H:\\Documents\\Cours\\Projet\\ProjetAkka\\backend\\project",
         "sources": [
-            "H:\\Desktop\\ING2\\S2\\ProjetAkka\\project\\src\\main\\scala",
-            "H:\\Desktop\\ING2\\S2\\ProjetAkka\\project\\src\\main\\scala-2.12",
-            "H:\\Desktop\\ING2\\S2\\ProjetAkka\\project\\src\\main\\scala-2",
-            "H:\\Desktop\\ING2\\S2\\ProjetAkka\\project\\src\\main\\java",
-            "H:\\Desktop\\ING2\\S2\\ProjetAkka\\project\\src\\main\\scala-sbt-1.0",
-            "H:\\Desktop\\ING2\\S2\\ProjetAkka\\project\\target\\scala-2.12\\sbt-1.0\\src_managed\\main"
+            "H:\\Documents\\Cours\\Projet\\ProjetAkka\\backend\\project\\src\\main\\scala",
+            "H:\\Documents\\Cours\\Projet\\ProjetAkka\\backend\\project\\src\\main\\scala-2.12",
+            "H:\\Documents\\Cours\\Projet\\ProjetAkka\\backend\\project\\src\\main\\scala-2",
+            "H:\\Documents\\Cours\\Projet\\ProjetAkka\\backend\\project\\src\\main\\java",
+            "H:\\Documents\\Cours\\Projet\\ProjetAkka\\backend\\project\\src\\main\\scala-sbt-1.0",
+            "H:\\Documents\\Cours\\Projet\\ProjetAkka\\backend\\project\\target\\scala-2.12\\sbt-1.0\\src_managed\\main"
         ],
         "dependencies": [
             
@@ -104,11 +104,11 @@
             "C:\\Users\\CYTech Student\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\reactivestreams\\reactive-streams\\1.0.3\\reactive-streams-1.0.3.jar",
             "C:\\Users\\CYTech Student\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\com\\typesafe\\config\\1.4.2\\config-1.4.2.jar"
         ],
-        "out": "H:\\Desktop\\ING2\\S2\\ProjetAkka\\project\\.bloop\\projetakka-build",
-        "classesDir": "H:\\Desktop\\ING2\\S2\\ProjetAkka\\project\\.bloop\\projetakka-build\\scala-2.12\\sbt-1.0\\classes",
+        "out": "H:\\Documents\\Cours\\Projet\\ProjetAkka\\backend\\project\\.bloop\\backend-build",
+        "classesDir": "H:\\Documents\\Cours\\Projet\\ProjetAkka\\backend\\project\\.bloop\\backend-build\\scala-2.12\\sbt-1.0\\classes",
         "resources": [
-            "H:\\Desktop\\ING2\\S2\\ProjetAkka\\project\\src\\main\\resources",
-            "H:\\Desktop\\ING2\\S2\\ProjetAkka\\project\\target\\scala-2.12\\sbt-1.0\\resource_managed\\main"
+            "H:\\Documents\\Cours\\Projet\\ProjetAkka\\backend\\project\\src\\main\\resources",
+            "H:\\Documents\\Cours\\Projet\\ProjetAkka\\backend\\project\\target\\scala-2.12\\sbt-1.0\\resource_managed\\main"
         ],
         "scala": {
             "organization": "org.scala-lang",
@@ -213,22 +213,22 @@
         "platform": {
             "name": "jvm",
             "config": {
-                "home": "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.4.7-hotspot",
+                "home": "C:\\Program Files\\Java\\jdk-21",
                 "options": [
-                    "-Duser.dir=H:\\Desktop\\ING2\\S2\\ProjetAkka\\project"
+                    "-Duser.dir=H:\\Documents\\Cours\\Projet\\ProjetAkka\\backend\\project"
                 ]
             },
             "mainClass": [
                 
             ],
             "runtimeConfig": {
-                "home": "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.4.7-hotspot",
+                "home": "C:\\Program Files\\Java\\jdk-21",
                 "options": [
-                    "-Duser.dir=H:\\Desktop\\ING2\\S2\\ProjetAkka\\project"
+                    "-Duser.dir=H:\\Documents\\Cours\\Projet\\ProjetAkka\\backend\\project"
                 ]
             },
             "classpath": [
-                "H:\\Desktop\\ING2\\S2\\ProjetAkka\\project\\.bloop\\projetakka-build\\scala-2.12\\sbt-1.0\\classes",
+                "H:\\Documents\\Cours\\Projet\\ProjetAkka\\backend\\project\\.bloop\\backend-build\\scala-2.12\\sbt-1.0\\classes",
                 "C:\\Users\\CYTech Student\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\ch\\epfl\\scala\\sbt-bloop_2.12_1.0\\2.0.8\\sbt-bloop_2.12_1.0-2.0.8.jar",
                 "C:\\Users\\CYTech Student\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\ch\\epfl\\scala\\bloop-config_2.12\\2.3.1\\bloop-config_2.12-2.3.1.jar",
                 "C:\\Users\\CYTech Student\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\com\\github\\plokhotnyuk\\jsoniter-scala\\jsoniter-scala-core_2.12\\2.13.5.2\\jsoniter-scala-core_2.12-2.13.5.2.jar",
