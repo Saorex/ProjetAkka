@@ -6,22 +6,25 @@ lazy val root = (project in file("."))
     name := "Projet-Akka",
     version := "0.1.0",
     libraryDependencies ++= Seq(
-      //  Akka Actor Classic (Gestion des acteurs)
+      // Akka Actor Classic (Gestion des acteurs)
       "com.typesafe.akka" %% "akka-actor" % "2.8.0",
-      "com.typesafe.akka" %% "akka-stream" % "2.8.0",
+      "com.typesafe.akka" %% "akka-stream" % "2.6.20",
+      "com.typesafe.akka" %% "akka-actor-typed" % "2.6.20",
 
-      //  STTP Client pour faire des requêtes HTTP vers Yahoo Finance
+      // STTP Client pour faire des requêtes HTTP
       "com.softwaremill.sttp.client3" %% "core" % "3.9.0",
+      "com.softwaremill.sttp.client3" %% "akka-http-backend" % "3.8.15",
 
-      //  JSON Parsing (Spray JSON)
-      "io.spray" %% "spray-json" % "1.3.6",
+      // JSON Parsing avec Circe
+      "io.circe" %% "circe-core" % "0.14.5",
+      "io.circe" %% "circe-generic" % "0.14.5",
+      "io.circe" %% "circe-parser" % "0.14.5",
 
-      //  Logging avec Logback
+      // Logging avec Logback
       "ch.qos.logback" % "logback-classic" % "1.4.7",
 
-      //  Testing avec ScalaTest et Akka TestKit
+      // Testing avec ScalaTest et Akka TestKit
       "org.scalatest" %% "scalatest" % "3.2.16" % Test,
       "com.typesafe.akka" %% "akka-testkit" % "2.8.0" % Test
-      
     )
   )
