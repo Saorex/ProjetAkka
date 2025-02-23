@@ -10,22 +10,12 @@
   grid-template-rows: 1fr 1fr 1fr;
 }
 
-.navbar {
-  grid-area: navbar;
-  background-color: #8ca0ff;
-}
-
-.sidebar {
-  grid-area: sidebar;
-  background-color: #ffa08c;
-}
-
 main {
   grid-area: main;
-  background-color: #ffff64;
+  background-color: #307dd6cc;
 }
 
 .footer {
   grid-area: footer;
-  background-color: #8cffa0;
+  background-color: #9fb0c4cc;
 }
