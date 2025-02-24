@@ -1,28 +1,25 @@
 import React from "react";
 import Navbar from "../components/Navbar";
-import Sidebar from "../components/Sidebar";
 import Chart from "../components/Chart";
 import Card from "../components/Card";
+import PieChart from "../components/PieChart";
 import './Board.css';
 
 const Board = () => {
   return (
     <div className="Board">
       <Navbar className="navbar" />
-      <Sidebar className="sidebar" />
+      <div className="card-container">
+        <Card title="Renault" description="Augmentation de 3%" />
+        <Card title="Sopra Steria" description="Diminution de 1%" />
+        <Card title="Alten" description="Augmentation de 7%" />
+      </div>
       <main>
-        <div className="single-column">
-          <p>Contenu en une seule colonne</p>
-        </div>
         <div className="dashboard">
           <Chart className="chart-container" />
           <div className="cards">
-            <Card title="Nouvelle info" description="Détail ici" />
-            <Card title="Autre info" description="Détail ici" />
+            <PieChart />
           </div>
-        </div>
-        <div className="single-column">
-          <p>Autre contenu en une seule colonne</p>
         </div>
       </main>
       <footer className="footer">

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement } from 'chart.js';
-import './Chart.css'; // Assurez-vous que ce chemin est correct
+import './Chart.css';
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
