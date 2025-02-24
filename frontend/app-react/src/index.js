@@ -6,6 +6,7 @@ import App from './Login';
 import reportWebVitals from './reportWebVitals';
 import Board from "./pages/Board";
 import Test from "./pages/test";
+import AssetForm from './pages/AssetForm';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -14,6 +15,7 @@ root.render(
           <Route path='/' element={<App/>}/>
           <Route path="/board" element={<Board />} />
           <Route path="/test" element={<Test />} />
+          <Route path="/assetform" element={<AssetForm />} />
       </Routes>
   </BrowserRouter>
 );
