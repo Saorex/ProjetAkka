@@ -15,13 +15,22 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ../init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d akka"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   backend:
     build:
       context: ../../
       dockerfile: postgresql/deployment/Dockerfile
     depends_on:
-      - database
+      database:
+        condition: service_healthy
+    restart: always
+    env_file:
+      - .env
     ports:
       - "8080:8080"
 
