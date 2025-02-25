@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  database:
+    image: postgres:15
+    container_name: akka_postgres
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ../init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  backend:
+    build:
+      context: ../../
+      dockerfile: postgresql/deployment/Dockerfile
+    depends_on:
+      - database
+    ports:
+      - "8080:8080"
+
+volumes:
+  postgres_data:
