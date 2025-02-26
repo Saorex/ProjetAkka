@@ -3,7 +3,7 @@ version: '3.8'
 services:
   database:
     image: postgres:15
-    container_name: akka_postgres
+    container_name: postgres
     env_file:
       - .env
     environment:
