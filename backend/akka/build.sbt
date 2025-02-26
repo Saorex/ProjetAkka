@@ -27,5 +27,15 @@ lazy val root = (project in file("."))
     "com.typesafe.akka" %% "akka-actor-testkit-typed" % "2.8.0" % Test
     )
   )
+// Activation du plugin sbt-assembly pour générer un fat-jar
+enablePlugins(AssemblyPlugin)
 
+// Stratégie de fusion pour éviter les conflits META-INF dans le fat-jar
+assemblyMergeStrategy in assembly := {
+    case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+    case _ => MergeStrategy.first
+}
+
+// Configuration pour que le fat-jar démarre avec une classe principale
+Compile / mainClass := Some("projetAkka.Main")
  
