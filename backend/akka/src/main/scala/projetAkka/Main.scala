@@ -6,9 +6,6 @@ import io.github.cdimascio.dotenv.Dotenv
 
 object Main extends App {
 
-  // Charger les variables d'environnement depuis .env
-  val dotenv = Dotenv.load()
-
   // Initialisation de l'Actor System
   val system = ActorSystem("InvestmentSystem")
 

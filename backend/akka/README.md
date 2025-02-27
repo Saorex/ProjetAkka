@@ -1,4 +1,4 @@
-# Documentation - Lancer un projet Akka avec SBT
+# Documentation - Lancer le projet Akka localement avec SBT
 
 ## Prérequis
 
@@ -17,15 +17,15 @@ Avant de démarrer le projet, assurez-vous d'avoir installé les éléments suiv
 ### 1. Lancer la base de données avec Docker Compose
 
 ```bash
-cd ./backend/postgresql/deployement
-docker-compose up -d --build
+cd ./backend/docker/deployment
+docker compose up -d postgresDB --build
 ```
 
 ### 2. Installer les dépendances et compiler le projet
 
 ```bash
 cd ../../akka
-sbt compile
+sbt clean compile
 ```
 
 ### 4. Lancer l'application
@@ -45,7 +45,6 @@ sbt test
 ## Arrêter et nettoyer les services Docker
 
 ```bash
-cd ./backend/postgresql/deployement
+cd ./backend/docker/deployement
 docker-compose down
 ```
-
