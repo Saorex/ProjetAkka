@@ -1,6 +1,5 @@
 ThisBuild / version := "0.1.0-SNAPSHOT"
 ThisBuild / scalaVersion := "2.13.12"
-
 // Repository pour Akka Persistence JDBC
 ThisBuild / resolvers += "Lightbend Repository".at("https://repo.lightbend.com/lightbend/maven-releases/")
 
@@ -41,14 +40,9 @@ lazy val root = (project in file("."))
       )
   )
 
-// Activation du plugin sbt-assembly pour générer un fat-jar
-enablePlugins(AssemblyPlugin)
-
-// Stratégie de fusion pour éviter les conflits META-INF dans le fat-jar
-assembly / assemblyMergeStrategy := {
-    case PathList("META-INF", xs @ _*) => MergeStrategy.discard
-    case _ => MergeStrategy.first
-}
-
-// Configuration pour que le fat-jar démarre avec une classe principale
-Compile / mainClass := Some("projetAkka.Main")
+enablePlugins(JavaAppPackaging, DockerPlugin)
+dockerBaseImage := "openjdk:11"
+dockerExposedPorts ++= Seq(8080, 9000)
+dockerUsername := Some("saorex")
+dockerRepository := Some("saorex")
+dockerAlias := dockerAlias.value.withRegistryHost(Some("docker.io"))
