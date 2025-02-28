@@ -3,6 +3,8 @@ ThisBuild / scalaVersion := "2.13.12"
 // Repository pour Akka Persistence JDBC
 ThisBuild / resolvers += "Lightbend Repository".at("https://repo.lightbend.com/lightbend/maven-releases/")
 
+Compile / run := (Compile / run).dependsOn(Compile / compile).evaluated
+
 lazy val root = (project in file("."))
   .settings(
     name := "Projet-Akka",
@@ -15,7 +17,7 @@ lazy val root = (project in file("."))
       "com.typesafe.akka" %% "akka-http-spray-json" % "10.2.10",
 
       // Akka Persistence
-      "com.typesafe.akka" %% "akka-persistence-typed" % "2.8.0",
+      "com.typesafe.akka" %% "akka-persistence" % "2.8.0",
       "com.typesafe.akka" %% "akka-persistence-query" % "2.8.0",
       "com.lightbend.akka" %% "akka-persistence-jdbc" % "5.2.0",
 
@@ -37,7 +39,7 @@ lazy val root = (project in file("."))
       "com.typesafe.akka" %% "akka-actor-testkit-typed" % "2.8.0" % Test,
 
       // Gestion des variables d'environnement
-      "io.github.cdimascio" % "dotenv-java" % "3.0.0"
+      "io.github.cdimascio" % "dotenv-java" % "3.0.0",
     )
   )
 

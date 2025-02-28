@@ -7,7 +7,7 @@ object Routes {
   val routes: Route =
     path("hello") {
       get {
-        complete("Sucess")
+        complete("Hello World")
       }
     }
 }
