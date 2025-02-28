@@ -2,12 +2,27 @@ package projetAkka
 
 import akka.actor.{ActorSystem, Props}
 import projetAkka.backend.actors._
-import io.github.cdimascio.dotenv.Dotenv
+import projetAkka.backend.routes._
+import akka.http.scaladsl.Http
+import scala.concurrent.Await
+import scala.concurrent.duration.Duration
 
 object Main extends App {
 
   // Initialisation de l'Actor System
-  val system = ActorSystem("InvestmentSystem")
+  implicit val system: ActorSystem = ActorSystem("InvestmentSystem")
+
+  // Démarrage du serveur HTTP
+  implicit val executionContext = system.dispatcher
+  val server = Http().newServerAt("localhost", 9090).bind(Routes.routes)
+
+  server.map { _ =>
+    println("Successfully started on localhost:9090")
+  } recover {
+    case ex =>
+      println("Failed to start the server due to: " + ex.getMessage)
+      system.terminate()
+  }
 
   // Création des acteurs
   val userActor = system.actorOf(Props[UserActor], "userActor")
@@ -21,7 +36,5 @@ object Main extends App {
 
   marketActor ! FetchMarketData
 
-  // Attente avant l'arrêt du système
-  Thread.sleep(2000)
-  system.terminate()
+  Await.result(server, Duration.Inf)
 }
