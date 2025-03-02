@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   database:
@@ -14,17 +14,17 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ../init.sql:/docker-entrypoint-initdb.d/init.sql
+      - C:/Users/acer/Documents/ProjetAkka-main/backend/postgresql/init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U admin -d akka"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
       retries: 5
 
   backend:
     build:
-      context: ../../
-      dockerfile: postgresql/deployment/Dockerfile
+      context: ../../akka
+      dockerfile: ../postgresql/deployment/Dockerfile
     depends_on:
       database:
         condition: service_healthy
@@ -33,6 +33,12 @@ services:
       - .env
     ports:
       - "8080:8080"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - C:/Users/acer/Documents/ProjetAkka-main/backend/akka/src/main/resources/application.conf:/app/application.conf
 
 volumes:
   postgres_data:
