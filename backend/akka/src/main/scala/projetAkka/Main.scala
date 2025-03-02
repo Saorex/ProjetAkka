@@ -1,26 +1,25 @@
-package projetAkka
+package projetAkka.backend
 
 import akka.actor.{ActorSystem, Props}
-import projetAkka.backend.actors._  
+import projetAkka.backend.actors._
 
 object Main extends App {
-
-  val system = ActorSystem("InvestmentSystem")
-
-  
-  val userActor = system.actorOf(Props[UserActor], "userActor")
-  val marketActor = system.actorOf(Props[MarketDataActor], "marketActor")
-
  
-  userActor ! CreatePortfolio("User1")
-  userActor ! AddStockToPortfolio("AAPL", 10)
-  userActor ! AddStockToPortfolio("GOOGL", 5)
-  userActor ! ShowPortfolio
-
-
-  marketActor ! FetchMarketData
+  val system = ActorSystem("TradingSystem")
 
   
-  Thread.sleep(2000)
-  system.terminate()
+  val marketActor = system.actorOf(Props[MarketDataActor], "marketDataActor")
+  val marketManager = system.actorOf(Props(new MarketManagerActor(marketActor)), "marketManager")
+  val user = system.actorOf(Props[UserActor], "userActor")
+
+  
+  user ! CreatePortfolio("user1")
+  user ! AddStockToPortfolio("AAPL", 10)
+  user ! AddStockToPortfolio("TSLA", 5)
+  user ! ShowPortfolio
+
+  
+  marketManager ! StartFetching
+
+  println(" Backend Akka lancé et prêt à fonctionner.")
 }
