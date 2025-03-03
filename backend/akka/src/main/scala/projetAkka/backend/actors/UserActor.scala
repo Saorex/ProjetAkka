@@ -2,6 +2,7 @@ package projetAkka.backend.actors
 
 import akka.actor.{Actor, ActorRef, Props}
 
+
 case class CreatePortfolio(userId: String)
 case class AddStockToPortfolio(symbol: String, quantity: Int)
 case class RemoveStockFromPortfolio(symbol: String)
@@ -13,7 +14,7 @@ class UserActor extends Actor {
   def receive = {
     case CreatePortfolio(userId) =>
       portfolioActor = Some(context.actorOf(Props[PortfolioActor], s"portfolio-$userId"))
-      println(s"Portefeuille créé pour l'utilisateur $userId.")
+      println(s"[Utilisateur] Portefeuille créé pour $userId.")
 
     case AddStockToPortfolio(symbol, quantity) =>
       portfolioActor.foreach(_ ! AddStock(symbol, quantity))

@@ -6,9 +6,16 @@ ThisBuild / resolvers += "Lightbend Repository".at("https://repo.lightbend.com/l
 Compile / run := (Compile / run).dependsOn(Compile / compile).evaluated
 
 lazy val root = (project in file("."))
+  .enablePlugins(AssemblyPlugin)
   .settings(
     name := "Projet-Akka",
     version := "0.1.0",
+
+   
+    Compile / unmanagedResourceDirectories += baseDirectory.value / "src" / "main" / "resources",
+    
+
+
     libraryDependencies ++= Seq(
       // Akka System
       "com.typesafe.akka" %% "akka-actor-typed" % "2.8.0",
