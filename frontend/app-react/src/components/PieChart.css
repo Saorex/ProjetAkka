@@ -1,0 +1,7 @@
+.pie-chart-container {
+    max-width: 400px;
+    max-height: 400px;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+  

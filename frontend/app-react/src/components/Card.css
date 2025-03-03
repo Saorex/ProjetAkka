@@ -1,0 +1,27 @@
+.Nouvelle-info {
+    background-color: #307dd6cc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 16px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .Nouvelle-info:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .text-lg {
+    font-size: 1.25rem;
+    color: #1a202c;
+  }
+  
+  .font-semibold {
+    font-weight: 600;
+  }
+  
+  .text-gray-600 {
+    color: #718096;
+  }
