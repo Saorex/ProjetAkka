@@ -51,17 +51,19 @@ object Main extends App {
         ex.printStackTrace()
     }
 
+
   // Création des acteurs
-  val userActor = system.actorOf(Props[UserActor], "userActor")
-  val marketActor = system.actorOf(Props[MarketDataActor], "marketActor")
+  val marketActor = system.actorOf(Props[MarketDataActor], "marketDataActor")
+  val marketManager = system.actorOf(Props(new MarketManagerActor(marketActor)), "marketManager")
+  val user = system.actorOf(Props[UserActor], "userActor")
 
   // Envoi de messages aux acteurs
-  userActor ! CreatePortfolio("User1")
-  userActor ! AddStockToPortfolio("AAPL", 10)
-  userActor ! AddStockToPortfolio("GOOGL", 5)
-  userActor ! ShowPortfolio
+  user ! CreatePortfolio("user1")
+  user ! AddStockToPortfolio("AAPL", 10)
+  user ! AddStockToPortfolio("TSLA", 5)
+  user ! ShowPortfolio
 
-  marketActor ! FetchMarketData
+  marketManager ! StartFetching
 
   // Attente pour maintenir le serveur en vie
   println("Press ENTER to stop the server...")
