@@ -1,0 +1,30 @@
+.Board {
+  display: grid;
+  width: 100%;
+  height: 250px;
+  grid-template-areas:
+    "navbar navbar"
+    "card-container main"
+    "footer footer";
+  grid-template-columns: 1fr, 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+}
+
+main {
+  grid-area: main;
+  background-color: #307dd6cc;
+  border: 1px solid #ccc;
+}
+
+.footer {
+  grid-area: footer;
+  background-color: #9fb0c4cc;
+}
+
+.card-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #307dd6cc;
+  border: 1px solid #ccc;
+  padding: 16px;
+}
