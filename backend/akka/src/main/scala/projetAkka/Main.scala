@@ -1,11 +1,13 @@
-package projetAkka
+package projetAkka.backend
 
 import projetAkka.backend.actors._
 import projetAkka.backend.routes._
+import projetAkka.backend.database._
 
 import io.github.cdimascio.dotenv.Dotenv
 
 import akka.actor.{ActorSystem, Props}
+
 import akka.http.scaladsl.Http
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
@@ -22,9 +24,6 @@ object Main extends App {
     System.setProperty(entry.getKey, entry.getValue)
   }
 
-  // Vérification
-  println(s"Database URL: ${System.getProperty("POSTGRES_URL")}")
-
   // Initialisation de l'Actor System
   implicit val system: ActorSystem = ActorSystem("InvestmentSystem")
 
@@ -40,27 +39,27 @@ object Main extends App {
       system.terminate()
   }
 
-  val db = Database.forConfig("akka.persistence.jdbc.slick.db")
-  val testQuery = sql"SELECT * from users".as[Int]
+  //Récuppération donnée
+  val symbol = "BTCUSDT"
+  val interval = "1m"
+  val limit = 1
+  val apiUrl = s"https://api.binance.com/api/v3/klines?symbol=$symbol&interval=$interval&limit=$limit"
+  val dataFetcher = system.actorOf(Props(new DataFetcherActor(apiUrl,symbol)), "dataFetcher")
 
-  db.run(testQuery).map(result => println(s"Database is reachable: $result"))
-    .recover {
-      case ex =>
-        println(s"Database connection failed: ${ex.getMessage}")
-        ex.printStackTrace()
-    }
+
 
   // Création des acteurs
-  val userActor = system.actorOf(Props[UserActor], "userActor")
-  val marketActor = system.actorOf(Props[MarketDataActor], "marketActor")
+  val marketActor = system.actorOf(Props[MarketDataActor], "marketDataActor")
+  val marketManager = system.actorOf(Props(new MarketManagerActor(marketActor)), "marketManager")
+  val user = system.actorOf(Props[UserActor], "userActor")
 
   // Envoi de messages aux acteurs
-  userActor ! CreatePortfolio("User1")
-  userActor ! AddStockToPortfolio("AAPL", 10)
-  userActor ! AddStockToPortfolio("GOOGL", 5)
-  userActor ! ShowPortfolio
+  user ! CreatePortfolio("user1")
+  user ! AddStockToPortfolio("AAPL", 10)
+  user ! AddStockToPortfolio("TSLA", 5)
+  user ! ShowPortfolio
 
-  marketActor ! FetchMarketData
+  marketManager ! StartFetching
 
   // Attente pour maintenir le serveur en vie
   println("Press ENTER to stop the server...")
