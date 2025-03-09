@@ -2,6 +2,7 @@ package projetAkka.backend
 
 import projetAkka.backend.actors._
 import projetAkka.backend.routes._
+import projetAkka.backend.database._
 
 import io.github.cdimascio.dotenv.Dotenv
 
@@ -23,9 +24,6 @@ object Main extends App {
     System.setProperty(entry.getKey, entry.getValue)
   }
 
-  // Vérification
-  println(s"Database URL: ${System.getProperty("POSTGRES_URL")}")
-
   // Initialisation de l'Actor System
   implicit val system: ActorSystem = ActorSystem("InvestmentSystem")
 
@@ -41,15 +39,13 @@ object Main extends App {
       system.terminate()
   }
 
-  val db = Database.forConfig("akka.persistence.jdbc.slick.db")
-  val testQuery = sql"SELECT * from users".as[Int]
+  //Récuppération donnée
+  val symbol = "BTCUSDT"
+  val interval = "1m"
+  val limit = 1
+  val apiUrl = s"https://api.binance.com/api/v3/klines?symbol=$symbol&interval=$interval&limit=$limit"
+  val dataFetcher = system.actorOf(Props(new DataFetcherActor(apiUrl,symbol)), "dataFetcher")
 
-  db.run(testQuery).map(result => println(s"Database is reachable: $result"))
-    .recover {
-      case ex =>
-        println(s"Database connection failed: ${ex.getMessage}")
-        ex.printStackTrace()
-    }
 
 
   // Création des acteurs
