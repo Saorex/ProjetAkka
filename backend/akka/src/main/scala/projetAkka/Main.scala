@@ -40,13 +40,20 @@ object Main extends App {
   }
 
   //Récuppération donnée
-  val symbol = "BTCUSDT"
-  val interval = "1m"
-  val limit = 1
-  val apiUrl = s"https://api.binance.com/api/v3/klines?symbol=$symbol&interval=$interval&limit=$limit"
-  val dataFetcher = system.actorOf(Props(new DataFetcherActor(apiUrl,symbol)), "dataFetcher")
-
-
+  val symbols = List(
+    "BTCUSDT",
+    "ETHUSDT",
+    "BNBUSDT",
+    "SOLUSDT",
+    "AVAXUSDT",
+    "INJUSDT",
+    "NEARUSDT",
+    "TIAUSDT",
+    "PYTHUSDT",
+    "WIFUSDT",
+    "JUPUSDT",
+  )
+  val dataFetcher = system.actorOf(Props(new DataFetcherActor(symbols)), "dataFetcher")
 
   // Création des acteurs
   val marketActor = system.actorOf(Props[MarketDataActor], "marketDataActor")

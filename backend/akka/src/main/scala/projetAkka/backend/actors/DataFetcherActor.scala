@@ -12,25 +12,32 @@ import DefaultJsonProtocol._
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
 
-class DataFetcherActor(apiUrl: String,symbol: String) extends Actor with ActorLogging {
+class DataFetcherActor(symbols: List[String]) extends Actor with ActorLogging {
   implicit val system = context.system
   implicit val ec: ExecutionContext = system.dispatcher
 
   override def preStart(): Unit = {
     log.info("DataFetcherActor started, scheduling API requests.")
 
-    val source = Source.tick(0.seconds, 1.minute, "fetch")
+    //Permet de faire une requête toutes les minutes pour chaque symbol
+    val source = Source.tick(0.seconds, 1.minute, "tick")
+      .flatMapConcat { _ =>
+        // À chaque tick, on crée une sous-source avec les symboles
+        Source(symbols)
+      }
 
+    //Lancement du flow
     val httpFlow = Flow[String]
-      .mapAsync(1)(_ => {
-        log.info(s"Requesting Binance API at $apiUrl")
-        Http().singleRequest(HttpRequest(uri = apiUrl))
+      .mapAsync(5)( symbol => {
+        val apiUrl = s"https://api.binance.com/api/v3/klines?symbol=$symbol&interval=1m&limit=1"
+        log.info(s"Requesting Binance API for symbol $symbol")
+        Http().singleRequest(HttpRequest(uri = apiUrl)).map(response => (symbol, response))
       })
-      .mapAsync(1) { response =>
+      .mapAsync(1) { case (symbol, response) =>
         if (response.status.isSuccess()) {
           response.entity.dataBytes
             .runFold("")(_ + _.utf8String)
-            .map(Some(_))
+            .map(jsonStr => Some((symbol, jsonStr)))
         } else {
           log.error(s"HTTP request failed with status: ${response.status}")
           response.discardEntityBytes()
@@ -38,7 +45,7 @@ class DataFetcherActor(apiUrl: String,symbol: String) extends Actor with ActorLo
         }
       }
       .collect { case Some(jsonString) => jsonString }
-      .map { jsonString =>
+      .map { case (symbol, jsonString) =>
         log.info(s"Réponse complète de Binance API : $jsonString")
 
         val parsedJson = jsonString.parseJson
