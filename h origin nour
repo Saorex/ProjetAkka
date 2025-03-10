@@ -1,0 +1,402 @@
+[33mcommit f3c5025a5408ed713cf5b2412fab97c80d0e1ef0[m[33m ([m[1;36mHEAD[m[33m)[m
+Author: Nourbenmiled <nour.benmiled@esprit.tn>
+Date:   Tue Mar 11 00:30:55 2025 +0100
+
+    authentification
+
+[33mcommit 33ab9e341b905625dac3987567a5ae48f4aa52ea[m[33m ([m[1;31morigin/nour[m[33m)[m
+Author: SaoCY <hautecourt@cy-tech.fr>
+Date:   Mon Mar 3 11:00:45 2025 +0100
+
+    correct main
+
+[33mcommit 000c9827e515b39708c7ff033ba248aecd04280d[m
+Merge: 1fcd16a1 45454563
+Author: SaoCY <hautecourt@cy-tech.fr>
+Date:   Mon Mar 3 10:52:53 2025 +0100
+
+    resolve conflict
+
+[33mcommit 1fcd16a18cdf5c6695eeb6badd2eaff9149af89f[m[33m ([m[1;32mnour[m[33m)[m
+Author: Nourbenmiled <nour.benmiled@esprit.tn>
+Date:   Sun Mar 2 02:14:22 2025 +0100
+
+    modif
+
+[33mcommit dc3949f1cfb34adc0ac08e03d169fc01af4a38f9[m
+Author: Nourbenmiled <nour.benmiled@esprit.tn>
+Date:   Sun Mar 2 02:10:55 2025 +0100
+
+    Ajout des modifications pour la persistance des données
+
+[33mcommit 4545456325ffddca782a7581fe79113c0d2a4e35[m
+Merge: 589f141a 63d41046
+Author: Sao <133856512+Saorex@users.noreply.github.com>
+Date:   Sat Mar 1 00:10:55 2025 +0100
+
+    Merge pull request #23 from Saorex/julien
+    
+    fix : import of env variable in application.conf
+
+[33mcommit 63d41046ce1ed772183072cfc9d7462ba12309aa[m[33m ([m[1;31morigin/julien[m[33m)[m
+Author: SaoCY <hautecourt@cy-tech.fr>
+Date:   Sat Mar 1 00:07:05 2025 +0100
+
+    fix : import of env variable in application.conf
+
+[33mcommit 589f141a022cfda11ad15661ee592ee657290b11[m
+Merge: fbedd332 329cac75
+Author: Sao <133856512+Saorex@users.noreply.github.com>
+Date:   Fri Feb 28 17:57:05 2025 +0100
+
+    Merge pull request #22 from Saorex/julien
+    
+    Implement akka http server
+
+[33mcommit 329cac75d3a6cb22dda6988de6e23555c4d61644[m
+Author: SaoCY <hautecourt@cy-tech.fr>
+Date:   Fri Feb 28 17:50:44 2025 +0100
+
+    feat: init akka http server
+
+[33mcommit 92499c628beb70e7fb8e40bca4ab1d30bbdd6773[m
+Merge: 6ffd7800 fbedd332
+Author: Sao <133856512+Saorex@users.noreply.github.com>
+Date:   Fri Feb 28 10:52:50 2025 +0100
+
+    Merge pull request #21 from Saorex/main
+    
+    merge frontend
+
+[33mcommit fbedd33267ae4d0e3b5c7dfd50561773ee6d60ed[m
+Merge: 94576e86 d2906e50
+Author: Adrien Maestri <adrien.maestri@gmail.com>
+Date:   Fri Feb 28 10:44:59 2025 +0100
+
+    Merge pull request #19 from Saorex/Adrien
+    
+    Adrien
+
+[33mcommit d2906e501c11aaa695963e53f1386388994cf41c[m
+Author: Adrien Maestri <adrien.maestri@gmail.com>
+Date:   Thu Feb 27 21:08:51 2025 +0100
+
+    Change button + link to board
+
+[33mcommit 94576e86a81cb23792862ede4e8bf9239aa14717[m
+Merge: 63649f61 6ffd7800
+Author: Sao <133856512+Saorex@users.noreply.github.com>
+Date:   Thu Feb 27 12:25:19 2025 +0100
+
+    Merge pull request #18 from Saorex/julien
+    
+    feat & fix : Add docker directory, fix docker deployment for akka bac…
+
+[33mcommit 6ffd78005bb846922442b34afe5a942f91bb0431[m
+Author: SaoCY <hautecourt@cy-tech.fr>
+Date:   Thu Feb 27 12:21:08 2025 +0100
+
+    feat & fix : Add docker directory, fix docker deployment for akka backend, add README.md for docker deployement, add README.md for local delployment for akka
+
+[33mcommit 63649f612b1590206ce05746d513307e9fdb1753[m
+Merge: 15830ba9 1d781780
+Author: Sao <133856512+Saorex@users.noreply.github.com>
+Date:   Wed Feb 26 17:38:10 2025 +0100
+
+    Merge pull request #16 from Saorex/julien
+    
+    Merge
+
+[33mcommit 1d781780fe9010d06f5d98b910e9a59392a1496a[m
+Author: SaoCY <hautecourt@cy-tech.fr>
+Date:   Wed Feb 26 17:34:58 2025 +0100
+
+    feat : add README.md for akka
+
+[33mcommit 78a23bbf52a6a44cefeb7790cf430bd1939657f9[m
+Author: SaoCY <hautecourt@cy-tech.fr>
+Date:   Wed Feb 26 17:28:04 2025 +0100
+
+    feat : Configuring akka persistence with PostgreSQL
+
+[33mcommit 15830ba961e6cb913b90a6f366d8a00986d3c1c7[m
+Merge: 53278da9 ae930050
+Author: Sao <133856512+Saorex@users.noreply.github.com>
+Date:   Wed Feb 26 14:10:25 2025 +0100
+
+    Merge pull request #15 from Saorex/julien
+    
+    fix : mutilple backend and arboresence
+
+[33mcommit ae93005014e882364c2ddb6c8d07cd864489a497[m
+Author: SaoCY <hautecourt@cy-tech.fr>
+Date:   Wed Feb 26 14:07:55 2025 +0100
+
+    fix : delete useless files, add assembly plugin
+
+[33mcommit bf317033fe66a5dff37d77f5e64a412647fd8453[m
+Author: SaoCY <hautecourt@cy-tech.fr>
+Date:   Wed Feb 26 14:01:32 2025 +0100
+
+    fix : delete Projetakka module
+
+[33mcommit 4bf6f0026d0b06dc981230176eb2512315650269[m
+Merge: b2bf822e e655f4bc
+Author: Sao <133856512+Saorex@users.noreply.github.com>
+Date:   Wed Feb 26 13:54:08 2025 +0100
+
+    Merge pull request #12 from Saorex/nour
+    
+    Nour merge
+
+[33mcommit e655f4bca9088d629121ee5ba4ffbf1b7b4edf96[m
+Author: Nourbenmiled <94123407+Nourbenmiled@users.noreply.github.com>
+Date:   Wed Feb 26 13:34:15 2025 +0100
+
+    Delete project directory
+
+[33mcommit 5112483888e890de0290a28331cccc1e8fb4b704[m
+Author: Nourbenmiled <94123407+Nourbenmiled@users.noreply.github.com>
+Date:   Wed Feb 26 13:34:02 2025 +0100
+
+    Delete src/main/scala/projetAkka directory
+
+[33mcommit 05d7a6c81bc675053a1707ab1607ea626d7603c7[m
+Author: Nourbenmiled <94123407+Nourbenmiled@users.noreply.github.com>
+Date:   Wed Feb 26 13:33:42 2025 +0100
+
+    Delete build.sbt
+
+[33mcommit d5a1992a2aedcd99867fd274b47e0ef38264393b[m
+Author: Nourbenmiled <94123407+Nourbenmiled@users.noreply.github.com>
+Date:   Wed Feb 26 13:33:13 2025 +0100
+
+    Delete .idea directory
+
+[33mcommit 1f7bf0d2c0f4a30596c6fc20de6c9697b8fd7a21[m
+Author: Nourbenmiled <94123407+Nourbenmiled@users.noreply.github.com>
+Date:   Wed Feb 26 13:32:35 2025 +0100
+
+    Delete .gitignore
+
+[33mcommit f937ceca6b07aac86a86dec96875e479c131bd9e[m
+Author: Nourbenmiled <nour.benmiled@esprit.tn>
+Date:   Wed Feb 26 13:29:58 2025 +0100
+
+    arbo
+
+[33mcommit b2bf822eceaed7e25afd697950dce933e5f520b3[m
+Author: SaoCY <hautecourt@cy-tech.fr>
+Date:   Wed Feb 26 12:08:24 2025 +0100
+
+    fix : track build.properties
+
+[33mcommit e2a9f1707fc62700abbbe85a8ccd186134e9441d[m
+Merge: 5650d86c 53278da9
+Author: Sao <133856512+Saorex@users.noreply.github.com>
+Date:   Wed Feb 26 00:47:22 2025 +0100
+
+    Merge pull request #11 from Saorex/main
+    
+    merge
+
+[33mcommit 1fc6ac8ff4d304dfd66473737e4c29a10a2249a9[m
+Author: Nourbenmiled <nour.benmiled@esprit.tn>
+Date:   Tue Feb 25 21:32:31 2025 +0100
+
+    Ajout du projet Akka
+
+[33mcommit 53278da9ef6daf9bc367f89d2568970f68e93e77[m
+Merge: e2edc2e1 5650d86c
+Author: Sao <133856512+Saorex@users.noreply.github.com>
+Date:   Tue Feb 25 16:38:39 2025 +0100
+
+    Merge pull request #10 from Saorex/julien
+    
+    feat : add assembly for backend docker
+
+[33mcommit 5650d86c289fb312b86d58235556a4d2ef9f3100[m
+Author: SaoCY <hautecourt@cy-tech.fr>
+Date:   Tue Feb 25 16:37:06 2025 +0100
+
+    feat : add assembly for backend docker
+
+[33mcommit e2edc2e1ed009a8d4dcf1aa966e1be60fe4500ac[m
+Merge: f885ca55 114fe614
+Author: Sao <133856512+Saorex@users.noreply.github.com>
+Date:   Tue Feb 25 15:32:46 2025 +0100
+
+    Merge pull request #9 from Saorex/julien
+    
+    merge from julien
+
+[33mcommit 114fe6140d8a9a026ddbadfe2e98edde575cf6fc[m
+Merge: 8cfbf64c f885ca55
+Author: Sao <133856512+Saorex@users.noreply.github.com>
+Date:   Tue Feb 25 15:31:49 2025 +0100
+
+    Merge pull request #8 from Saorex/main
+    
+    Merge pull request #7 from Saorex/julien
+
+[33mcommit 8cfbf64c26e1d2affb5ca7f7c5ee01355584f5de[m
+Author: SaoCY <hautecourt@cy-tech.fr>
+Date:   Tue Feb 25 15:26:58 2025 +0100
+
+    feat : add init.sql for users tab, add .env to hide login
+
+[33mcommit f885ca55f39194a04a748a1e167a4bb90279df3c[m
+Merge: 447f8f4b 021d3f0b
+Author: Sao <133856512+Saorex@users.noreply.github.com>
+Date:   Tue Feb 25 14:24:57 2025 +0100
+
+    Merge pull request #7 from Saorex/julien
+    
+    Add Docker PostgreSQL
+
+[33mcommit 021d3f0becb147a72295c2148ac2ee613a3b7f02[m
+Merge: 9e203bb3 447f8f4b
+Author: Sao <133856512+Saorex@users.noreply.github.com>
+Date:   Tue Feb 25 14:23:59 2025 +0100
+
+    Merge pull request #6 from Saorex/main
+    
+    merge main
+
+[33mcommit d18688217f5c922c6d755ef0e64aae7df12a00d9[m
+Author: Pascalcytech <pascal.kau8@gmail.com>
+Date:   Mon Feb 24 02:16:24 2025 +0100
+
+    [NewPage] Form for buying or selling assets.
+
+[33mcommit 65b771840a201e8e7dbb880a8285e79c6af723fc[m
+Author: Pascalcytech <pascal.kau8@gmail.com>
+Date:   Mon Feb 24 01:36:10 2025 +0100
+
+    [Functionnality] Add of PieChart.
+
+[33mcommit 6dcc2a677eda315e6b79c3b0afeb96c1992bd708[m
+Author: Pascalcytech <pascal.kau8@gmail.com>
+Date:   Sun Feb 23 13:11:22 2025 +0100
+
+    [Cleaning] Cleaning of CSS files.
+
+[33mcommit 75bfe393c2f21e26fa153887e8f4ac27bc19a065[m
+Author: Pascalcytech <pascal.kau8@gmail.com>
+Date:   Sun Feb 23 02:23:54 2025 +0100
+
+    [NewPage] Creation of dashboard page.
+
+[33mcommit e7560f7a38361123341d3c5eaee637b4c22122d2[m
+Author: Adrien Maestri <adrien.maestri@gmail.com>
+Date:   Thu Feb 20 11:45:34 2025 +0100
+
+    page de connexion pas fonctionnel
+
+[33mcommit 9e203bb37cba1de8ed3a42cc4108b41c35b4455b[m
+Author: SaoCY <hautecourt@cy-tech.fr>
+Date:   Thu Feb 20 11:45:32 2025 +0100
+
+    feat : Docker for PostgreSQL
+
+[33mcommit 447f8f4b05691d45b82d316087ccdc19edd553a0[m
+Merge: 1b850933 aaf6c5a1
+Author: Hugo0501ri <133871590+Hugo0501ri@users.noreply.github.com>
+Date:   Thu Feb 20 11:02:47 2025 +0100
+
+    Merge pull request #4 from Saorex/Hugo
+    
+    Connexion api Alpha Vantage
+
+[33mcommit aaf6c5a1d4a769e36b6a8d1b7b2f23e72d1e7959[m
+Author: Hugo0501ri <133871590+Hugo0501ri@users.noreply.github.com>
+Date:   Thu Feb 20 11:01:48 2025 +0100
+
+    Delete backend/project directory
+
+[33mcommit 2f50b8278c1d16a86e0c45d45ce50ce3166f943f[m
+Author: Hugo0501ri <133871590+Hugo0501ri@users.noreply.github.com>
+Date:   Thu Feb 20 11:01:31 2025 +0100
+
+    Delete backend/.idea directory
+
+[33mcommit 0afd0d9f580cb17f11306ebd2b9a39c279dc90ca[m
+Author: Hugo0501ri <133871590+Hugo0501ri@users.noreply.github.com>
+Date:   Thu Feb 20 11:01:08 2025 +0100
+
+    Delete backend/.bloop directory
+
+[33mcommit c19d5cabc3b36f319dd0867fb42e13a25e5c1962[m
+Author: Hugo0501ri <133871590+Hugo0501ri@users.noreply.github.com>
+Date:   Thu Feb 20 11:00:43 2025 +0100
+
+    Delete .metals directory
+
+[33mcommit d358c79947c5a77528bb027d6b0239bf29d3f067[m
+Author: Hugo0501ri <133871590+Hugo0501ri@users.noreply.github.com>
+Date:   Thu Feb 20 09:50:24 2025 +0100
+
+    Connexion api Alpha Vantage
+
+[33mcommit cebd47d6924e2b15840f71d5022b9d9da425c1b4[m
+Author: Adrien Maestri <adrien.maestri@gmail.com>
+Date:   Tue Feb 18 16:14:44 2025 +0100
+
+    Start Frontend
+
+[33mcommit 1b850933772d46f37af606e0dcf5bf16c1c1a88e[m
+Merge: f0337110 2972d6e2
+Author: Adrien Maestri <adrien.maestri@gmail.com>
+Date:   Tue Feb 18 16:04:33 2025 +0100
+
+    Merge pull request #3 from Saorex/Adrien
+    
+    Merge pull request #2 from Saorex/main
+
+[33mcommit 2972d6e29d63574d4b746ba67af5f8450137114e[m
+Merge: 674a28a3 f0337110
+Author: Adrien Maestri <adrien.maestri@gmail.com>
+Date:   Tue Feb 18 15:59:58 2025 +0100
+
+    Merge pull request #2 from Saorex/main
+    
+    Adrien
+
+[33mcommit f0337110c5de7c91cbdb75bba47a1e8f31a55bb0[m
+Merge: 674a28a3 c0fe18c8
+Author: Adrien Maestri <adrien.maestri@gmail.com>
+Date:   Tue Feb 18 15:59:06 2025 +0100
+
+    Merge pull request #1 from Saorex/Hugo
+    
+    Hugo
+
+[33mcommit c0fe18c87690e70ad14cd7b44f8fbe34693d077a[m
+Author: Hugo0501ri <133871590+Hugo0501ri@users.noreply.github.com>
+Date:   Tue Feb 18 14:57:27 2025 +0100
+
+    déplacement a src
+
+[33mcommit e469f53815dc492717d552cbd0e8e326a42776ba[m
+Author: Hugo0501ri <133871590+Hugo0501ri@users.noreply.github.com>
+Date:   Tue Feb 18 14:52:05 2025 +0100
+
+    debut backend
+
+[33mcommit 674a28a316cb677612f4b24d49272f0a4c366161[m
+Author: Hugo0501ri <133871590+Hugo0501ri@users.noreply.github.com>
+Date:   Sun Feb 16 11:20:29 2025 +0100
+
+    test
+
+[33mcommit 3bd54e9a9bd477873ee0d5ac7c3fb1d2d3e24ef0[m
+Author: Hugo0501ri <133871590+Hugo0501ri@users.noreply.github.com>
+Date:   Sun Feb 16 11:19:21 2025 +0100
+
+    test
+
+[33mcommit e0f7e9992830781b3536f82325cc5358e25f323f[m
+Author: SaoCY <hautecourt@cy-tech.fr>
+Date:   Thu Feb 13 16:19:24 2025 +0100
+
+    Inial commit
