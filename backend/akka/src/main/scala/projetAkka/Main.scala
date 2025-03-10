@@ -1,72 +1,87 @@
 package projetAkka.backend
 
-import projetAkka.backend.actors._
-import projetAkka.backend.routes._
-
+import projetAkka.backend.actors.{AuthActor, MarketDataActor, MarketManagerActor, UserActor}
+import projetAkka.backend.routes.{AuthRoutes, Routes}
+import projetAkka.backend.database.UserRepository
 import io.github.cdimascio.dotenv.Dotenv
-
 import akka.actor.{ActorSystem, Props}
-
 import akka.http.scaladsl.Http
-import scala.concurrent.Await
-import scala.concurrent.duration.Duration
-import scala.io.StdIn
-
+import akka.http.scaladsl.server.Directives._
 import slick.jdbc.PostgresProfile.api._
+import scala.concurrent.ExecutionContext
+import scala.io.StdIn
 
 object Main extends App {
 
-  val dotenv: Dotenv = Dotenv.load()
+  // Chargement des variables d'environnement depuis .env
+  val dotenv: Dotenv = Dotenv.configure()
+    .directory("C:\\Users\\acer\\Documents\\ProjetAkka-main\\backend\\docker\\deployment")
+    .load()
 
-  // Charger et définir dans les propriétés système
   dotenv.entries().forEach { entry =>
     System.setProperty(entry.getKey, entry.getValue)
   }
 
-  // Vérification
-  println(s"Database URL: ${System.getProperty("POSTGRES_URL")}")
+  // Vérification des variables de connexion PostgreSQL
+  val dbUrl = System.getProperty("POSTGRES_URL", "jdbc:postgresql://localhost:5432/akka")
+  val dbUser = System.getProperty("POSTGRES_USER", "admin")
+  val dbPassword = System.getProperty("POSTGRES_PASSWORD", "B9&!hm%dQ@GLWSrEWC8j")
 
-  // Initialisation de l'Actor System
+  println(s" Vérification de la configuration PostgreSQL :")
+  println(s"   - URL: $dbUrl")
+  println(s"   - USER: $dbUser")
+  println(s"   - PASSWORD: ******** ")
+
   implicit val system: ActorSystem = ActorSystem("InvestmentSystem")
+  implicit val executionContext: ExecutionContext = system.dispatcher
 
-  // Démarrage du serveur HTTP
-  implicit val executionContext = system.dispatcher
-  val server = Http().newServerAt("localhost", 9090).bind(Routes.routes)
-
-  server.map { _ =>
-    println("Successfully started on localhost:9090")
-  } recover {
-    case ex =>
-      println("Failed to start the server due to: " + ex.getMessage)
+  // Connexion à la base de données PostgreSQL avec gestion d'erreur
+  val db = try {
+    Database.forURL(
+      url = dbUrl,
+      user = dbUser,
+      password = dbPassword,
+      driver = "org.postgresql.Driver"
+    )
+  } catch {
+    case ex: Exception =>
+      println(s" Erreur de connexion à PostgreSQL: ${ex.getMessage}")
       system.terminate()
+      throw ex
   }
-
-  val db = Database.forConfig("akka.persistence.jdbc.slick.db")
-  val testQuery = sql"SELECT * from users".as[Int]
-
-  db.run(testQuery).map(result => println(s"Database is reachable: $result"))
-    .recover {
-      case ex =>
-        println(s"Database connection failed: ${ex.getMessage}")
-        ex.printStackTrace()
-    }
-
 
   // Création des acteurs
   val marketActor = system.actorOf(Props[MarketDataActor], "marketDataActor")
   val marketManager = system.actorOf(Props(new MarketManagerActor(marketActor)), "marketManager")
   val user = system.actorOf(Props[UserActor], "userActor")
 
-  // Envoi de messages aux acteurs
-  user ! CreatePortfolio("user1")
-  user ! AddStockToPortfolio("AAPL", 10)
-  user ! AddStockToPortfolio("TSLA", 5)
-  user ! ShowPortfolio
+  // Authentification avec UserRepository
+  val userRepository = new UserRepository(db)
+  val authActor = system.actorOf(Props(new AuthActor(userRepository)), "authActor")
 
-  marketManager ! StartFetching
+  // Définition des routes Akka HTTP
+  val authRoutes = new AuthRoutes(authActor).route
+  val allRoutes = concat(Routes.routes, authRoutes)
 
-  // Attente pour maintenir le serveur en vie
-  println("Press ENTER to stop the server...")
+  // Lancement du serveur HTTP Akka avec gestion d'erreur
+  val server = try {
+    Http().newServerAt("localhost", 8080).bind(allRoutes)
+  } catch {
+    case ex: Exception =>
+      println(s" Erreur lors du démarrage du serveur: ${ex.getMessage}")
+      system.terminate()
+      throw ex
+  }
+
+  server.map { _ =>
+    println(" Serveur démarré sur http://localhost:8080")
+  } recover {
+    case ex =>
+      println(s" Erreur au démarrage du serveur: ${ex.getMessage}")
+      system.terminate()
+  }
+
+  println("Appuie sur ENTRÉE pour arrêter le serveur.")
   StdIn.readLine()
   system.terminate()
 }
