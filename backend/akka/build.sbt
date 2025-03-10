@@ -9,6 +9,12 @@ lazy val root = (project in file("."))
   .settings(
     name := "Projet-Akka",
     version := "0.1.0",
+
+   
+    Compile / unmanagedResourceDirectories += baseDirectory.value / "src" / "main" / "resources",
+    
+
+
     libraryDependencies ++= Seq(
       // Akka System
       "com.typesafe.akka" %% "akka-actor-typed" % "2.8.0",
