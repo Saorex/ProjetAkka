@@ -21,20 +21,16 @@ export default function Simulation() {
     });
   };
 
-  const handleSimulate = (e) => {
+  const handleSimulate = async (e) => {
     e.preventDefault();
-    const { initialAmount, timeHorizon, annualReturnRate, annualFees } = formData;
-
-    const data = [];
-    let amountWithFees = initialAmount;
-    let amountWithoutFees = initialAmount;
-
-    for (let year = 0; year < timeHorizon; year++) {
-      amountWithFees = amountWithFees * (1 + (annualReturnRate - annualFees) / 100);
-      amountWithoutFees = amountWithoutFees * (1 + annualReturnRate / 100);
-      data.push({ year, amountWithFees, amountWithoutFees });
-    }
-
+    const response = await fetch('http://localhost:3000/simulations', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    });
+    const data = await response.json();
     setResults(data);
   };
 
@@ -127,7 +123,7 @@ export default function Simulation() {
             <tbody>
               {results.map((r, index) => (
                 <tr key={index}>
-                  <td>{r.year + 1}</td>
+                  <td>{r.year}</td>
                   <td>{r.amountWithFees.toFixed(2)}</td>
                   <td>{r.amountWithoutFees.toFixed(2)}</td>
                 </tr>

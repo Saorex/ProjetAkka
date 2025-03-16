@@ -12,6 +12,7 @@ object Main extends App {
   // Création des acteurs
   val userActor = system.actorOf(Props[UserActor], "userActor")
   val marketActor = system.actorOf(Props[MarketDataActor], "marketActor")
+  val simulationActor = system.actorOf(Props[SimulationActor], "simulationActor")
 
   // Envoi de messages aux acteurs
   userActor ! CreatePortfolio("User1")
@@ -20,6 +21,9 @@ object Main extends App {
   userActor ! ShowPortfolio
 
   marketActor ! FetchMarketData
+
+  // Exemple de simulation
+  simulationActor ! SimulateInvestment(10000, 10, 5, 1)
 
   // Attente avant l'arrêt du système
   Thread.sleep(2000)

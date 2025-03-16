@@ -11,10 +11,12 @@ lazy val root = (project in file("."))
           // Akka Actor System
           "com.typesafe.akka" %% "akka-actor-typed" % "2.8.0",
           "com.typesafe.akka" %% "akka-stream" % "2.8.0",
-          "com.typesafe.akka" %% "akka-http" % "10.5.0",
+          "com.typesafe.akka" %% "akka-http" % "10.2.9",
+          "com.typesafe.akka" %% "akka-http-spray-json" % "10.2.9",
 
           // Akka Persistence
           "com.typesafe.akka" %% "akka-persistence-typed" % "2.8.0",
+          "de.heikoseeberger" %% "akka-http-play-json" % "1.39.2", // Ajout du support Play JSON
           "com.typesafe.akka" %% "akka-persistence-query" % "2.8.0",
           "com.lightbend.akka" %% "akka-persistence-jdbc" % "5.2.0",
 
