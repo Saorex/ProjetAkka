@@ -1,8 +1,9 @@
 package projetAkka.backend
 
-import projetAkka.backend.actors.{AuthActor, MarketDataActor, MarketManagerActor, UserActor}
-import projetAkka.backend.routes.{AuthRoutes, Routes}
-import projetAkka.backend.database.UserRepository
+import projetAkka.backend.actors._
+import projetAkka.backend.routes._
+import projetAkka.backend.database._
+
 import io.github.cdimascio.dotenv.Dotenv
 import akka.actor.{ActorSystem, Props}
 import akka.http.scaladsl.Http
@@ -22,15 +23,12 @@ object Main extends App {
     System.setProperty(entry.getKey, entry.getValue)
   }
 
-  // Vérification des variables de connexion PostgreSQL
-  val dbUrl = System.getProperty("POSTGRES_URL", "jdbc:postgresql://localhost:5432/akka")
-  val dbUser = System.getProperty("POSTGRES_USER", "admin")
-  val dbPassword = System.getProperty("POSTGRES_PASSWORD", "B9&!hm%dQ@GLWSrEWC8j")
+  // Initialisation de l'Actor System
+  implicit val system: ActorSystem = ActorSystem("InvestmentSystem")
 
-  println(s" Vérification de la configuration PostgreSQL :")
-  println(s"   - URL: $dbUrl")
-  println(s"   - USER: $dbUser")
-  println(s"   - PASSWORD: ******** ")
+  // Démarrage du serveur HTTP
+  implicit val executionContext = system.dispatcher
+  val server = Http().newServerAt("localhost", 9090).bind(Routes.routes)
 
   implicit val system: ActorSystem = ActorSystem("InvestmentSystem")
   implicit val executionContext: ExecutionContext = system.dispatcher
@@ -50,10 +48,28 @@ object Main extends App {
       throw ex
   }
 
+  //Récuppération donnée
+  val symbols = List(
+    "BTCUSDT",
+    "ETHUSDT",
+    "BNBUSDT",
+    "SOLUSDT",
+    "AVAXUSDT",
+    "INJUSDT",
+    "NEARUSDT",
+    "TIAUSDT",
+    "PYTHUSDT",
+    "WIFUSDT",
+    "JUPUSDT",
+  )
+  val dataFetcher = system.actorOf(Props(new DataFetcherActor(symbols)), "dataFetcher")
+
   // Création des acteurs
+  val userActor = system.actorOf(Props[UserActor], "userActor")
+  val marketActor = system.actorOf(Props[MarketDataActor], "marketActor")
+  val simulationActor = system.actorOf(Props[SimulationActor], "simulationActor")
   val marketActor = system.actorOf(Props[MarketDataActor], "marketDataActor")
   val marketManager = system.actorOf(Props(new MarketManagerActor(marketActor)), "marketManager")
-  val user = system.actorOf(Props[UserActor], "userActor")
 
   // Authentification avec UserRepository
   val userRepository = new UserRepository(db)
@@ -81,7 +97,11 @@ object Main extends App {
       system.terminate()
   }
 
-  println("Appuie sur ENTRÉE pour arrêter le serveur.")
+  // Exemple de simulation
+  simulationActor ! SimulateInvestment(10000, 10, 5, 1)
+  
+  // Attente pour maintenir le serveur en vie
+  println("Press ENTER to stop the server...")
   StdIn.readLine()
   system.terminate()
 }

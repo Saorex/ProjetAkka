@@ -3,5 +3,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #9fb0c4cc;
+  background-image: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+  height: 100%;
+  color: #f0f0f0;
 }
+
+
