@@ -6,19 +6,24 @@ const Login = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [isLeaving, setIsLeaving] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLeaving(true);
+
     //TODO rajouter verification backend
-    navigate('/board'); 
+    setTimeout(() => {
+      navigate('/board'); // Navigation après l'animation
+    }, 500); 
   };
 
   return (
     <>
     {/*<Link to="/board">Tableau de bord</Link>*/}
-    <div className='login'>
+    <div className={`login ${isLeaving ? 'fade-out-top' : ''}`}>
       <h1>Donne ta tune.net</h1>
-      <div className='login-div'>
+      <div className={`login-div ${isLeaving ? 'fade-out-bottom' : ''}`}>
         <h2>Connexion</h2>
         <form className='login-form' onSubmit={handleSubmit}>
           <div>
