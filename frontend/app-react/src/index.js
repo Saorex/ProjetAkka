@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import Board from "./pages/Board";
 import Test from "./pages/test";
 import AssetForm from './pages/AssetForm';
+import Simulation from './pages/Simulation';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -16,6 +17,7 @@ root.render(
           <Route path="/board" element={<Board />} />
           <Route path="/test" element={<Test />} />
           <Route path="/assetform" element={<AssetForm />} />
+          <Route path="/simulations" element={<Simulation />} />
       </Routes>
   </BrowserRouter>
 );

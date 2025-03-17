@@ -1,3 +1,7 @@
+-- =============================
+-- Table Utilisateurs
+-- =============================
+
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
@@ -13,7 +17,21 @@ VALUES
     ('user2', 'user2@example.com', 'hashed_password_2', 'walletkey2')
     ON CONFLICT (username) DO NOTHING;
 
--- Persistance Akka
+-- =============================
+-- Tables de données financières
+-- =============================
+
+CREATE TABLE IF NOT EXISTS market_data (
+    symbol VARCHAR(50) NOT NULL,
+    timestamp BIGINT NOT NULL,
+    open DOUBLE PRECISION NOT NULL,
+    close DOUBLE PRECISION NOT NULL,
+    PRIMARY KEY(symbol, timestamp)
+    );
+
+-- =============================
+-- Tables de Persistance Akka
+-- =============================
 CREATE TABLE IF NOT EXISTS public.event_journal (
                                                     ordering BIGSERIAL,
                                                     persistence_id VARCHAR(255) NOT NULL,
