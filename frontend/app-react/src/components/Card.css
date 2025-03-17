@@ -15,13 +15,17 @@
   
   .text-lg {
     font-size: 1.25rem;
-    color: #1a202c;
+    color: #f0f0f0;
   }
   
   .font-semibold {
     font-weight: 600;
   }
   
-  .text-gray-600 {
-    color: #718096;
+  .text-black-600 {
+    color: #f0f0f0;
+  }
+
+  .card{
+    border-bottom: 1px solid white;
   }
