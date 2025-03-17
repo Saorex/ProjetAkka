@@ -10,14 +10,19 @@ import akka.util.Timeout
 import play.api.libs.json._
 import de.heikoseeberger.akkahttpplayjson.PlayJsonSupport._
 import scala.concurrent.duration._
+import io.github.cdimascio.dotenv.Dotenv
 
 import scala.io.StdIn
 import projetAkka.backend.actors.{SimulateInvestment, SimulationResult, SimulationActor}
+import projetAkka.backend.routes.Routes
 
 object WebServer {
-  // Formats JSON implicites pour les messages
-  implicit val simulateInvestmentFormat: Format[SimulateInvestment] = Json.format[SimulateInvestment]
-  implicit val simulationResultFormat: Format[SimulationResult] = Json.format[SimulationResult]
+  val dotenv: Dotenv = Dotenv.load()
+
+  // Charger et définir dans les propriétés système
+  dotenv.entries().forEach { entry =>
+    System.setProperty(entry.getKey, entry.getValue)
+  }
 
   def main(args: Array[String]): Unit = {
     implicit val system: ActorSystem = ActorSystem("InvestmentSystem")
@@ -28,25 +33,11 @@ object WebServer {
     // Création de l'acteur SimulationActor
     val simulationActor = system.actorOf(Props[SimulationActor], "simulationActor")
 
-    // Définition de la route HTTP
-    val route: Route =
-      path("simulations") { // Le début du chemin, à comprendre par /simulations
-        post {
-          entity(as[JsValue]) { json =>
-            json.validate[SimulateInvestment] match {
-              case JsSuccess(simulateInvestment, _) =>
-                onSuccess((simulationActor ? simulateInvestment).mapTo[SimulationResult]) {
-                  case SimulationResult(data) => complete(Json.toJson(data))
-                }
-              case JsError(errors) =>
-                complete(BadRequest -> s"Invalid JSON: ${errors.mkString(", ")}")
-            }
-          }
-        }
-      }
+    // Initialisation des routes
+    val routes = new Routes(simulationActor)
 
     // Démarrage du serveur HTTP
-    val bindingFuture = Http().bindAndHandle(route, "localhost", 3000)
+    val bindingFuture = Http().bindAndHandle(routes.routes, "localhost", 3000)
     println(s"Server now online. Please navigate to http://localhost:3000/\nPress RETURN to stop...")
     StdIn.readLine()
     bindingFuture

@@ -1,19 +1,16 @@
 package projetAkka.backend
 
 import projetAkka.backend.actors._
-import projetAkka.backend.routes._
+import projetAkka.backend.routes.Routes
 import projetAkka.backend.database._
 
 import io.github.cdimascio.dotenv.Dotenv
-
 import akka.actor.{ActorSystem, Props}
-
 import akka.http.scaladsl.Http
-import scala.concurrent.Await
-import scala.concurrent.duration.Duration
+import scala.concurrent.duration._
 import scala.io.StdIn
-
 import slick.jdbc.PostgresProfile.api._
+import akka.util.Timeout
 
 object Main extends App {
 
@@ -26,10 +23,17 @@ object Main extends App {
 
   // Initialisation de l'Actor System
   implicit val system: ActorSystem = ActorSystem("InvestmentSystem")
+  implicit val executionContext: scala.concurrent.ExecutionContextExecutor = system.dispatcher
+  implicit val timeout: Timeout = Timeout(5.seconds)
+
+  // Création de l'acteur SimulationActor
+  val simulationActor = system.actorOf(Props[SimulationActor], "simulationActor")
+
+  // Initialisation des routes
+  val routes = new Routes(simulationActor)
 
   // Démarrage du serveur HTTP
-  implicit val executionContext = system.dispatcher
-  val server = Http().newServerAt("localhost", 9090).bind(Routes.routes)
+  val server = Http().newServerAt("localhost", 9090).bind(routes.routes)
 
   server.map { _ =>
     println("Successfully started on localhost:9090")
@@ -39,7 +43,7 @@ object Main extends App {
       system.terminate()
   }
 
-  //Récuppération donnée
+  // Récupération des données
   val symbols = List(
     "BTCUSDT",
     "ETHUSDT",
@@ -58,21 +62,19 @@ object Main extends App {
   // Création des acteurs
   val userActor = system.actorOf(Props[UserActor], "userActor")
   val marketActor = system.actorOf(Props[MarketDataActor], "marketActor")
-  val simulationActor = system.actorOf(Props[SimulationActor], "simulationActor")
-  val marketActor = system.actorOf(Props[MarketDataActor], "marketDataActor")
   val marketManager = system.actorOf(Props(new MarketManagerActor(marketActor)), "marketManager")
 
   // Envoi de messages aux acteurs
-  user ! CreatePortfolio("user1")
-  user ! AddStockToPortfolio("AAPL", 10)
-  user ! AddStockToPortfolio("TSLA", 5)
-  user ! ShowPortfolio
+  userActor ! CreatePortfolio("user1")
+  userActor ! AddStockToPortfolio("AAPL", 10)
+  userActor ! AddStockToPortfolio("TSLA", 5)
+  userActor ! ShowPortfolio
 
   marketManager ! StartFetching
 
   // Exemple de simulation
   simulationActor ! SimulateInvestment(10000, 10, 5, 1)
-  
+
   // Attente pour maintenir le serveur en vie
   println("Press ENTER to stop the server...")
   StdIn.readLine()
