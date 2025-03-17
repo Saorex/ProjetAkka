@@ -6,38 +6,69 @@ const Login = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    //TODO rajouter verification backend
-    navigate('/board'); 
+
+    try {
+      const response = await fetch("http://localhost:8080/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ username, password })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem("authToken", data.token); // Stocker le token pour les futures requêtes
+        navigate('/board');  // Rediriger après succès
+      } else {
+        setErrorMessage(" Identifiants incorrects !");
+      }
+    } catch (error) {
+      setErrorMessage("Erreur de connexion au serveur.");
+    }
   };
 
-  return (
-    <>
-    {/*<Link to="/board">Tableau de bord</Link>*/}
+return (
     <div className='login'>
       <h1>Donne ta tune.net</h1>
       <div className='login-div'>
         <h2>Connexion</h2>
         <form className='login-form' onSubmit={handleSubmit}>
           <div>
-            <input name='username' type='text' placeholder='Username' value={username} onChange={(e) => setUsername(e.target.value)}/>
+            <input 
+              name='username' 
+              type='text' 
+              placeholder='Username' 
+              value={username} 
+              onChange={(e) => setUsername(e.target.value)}
+            />
             <label className='login-label' htmlFor='username'>Username</label>
           </div>
           
           <div>
-            <input name='password' type='password' placeholder='Mot de passe' value={password} onChange={(e) => setPassword(e.target.value)}/>
+            <input 
+              name='password' 
+              type='password' 
+              placeholder='Mot de passe' 
+              value={password} 
+              onChange={(e) => setPassword(e.target.value)}
+            />
             <label className='login-label' htmlFor='password'>Mot de passe</label>
           </div>
+
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
+
           <button className='login-button'>
             Se connecter
           </button>
         </form>
       </div>
     </div>
-    </>
-  );
-}
+);
+};
 
 export default Login;

@@ -5,21 +5,20 @@ import projetAkka.backend.routes._
 import projetAkka.backend.database._
 
 import io.github.cdimascio.dotenv.Dotenv
-
 import akka.actor.{ActorSystem, Props}
-
 import akka.http.scaladsl.Http
-import scala.concurrent.Await
-import scala.concurrent.duration.Duration
-import scala.io.StdIn
-
+import akka.http.scaladsl.server.Directives._
 import slick.jdbc.PostgresProfile.api._
+import scala.concurrent.ExecutionContext
+import scala.io.StdIn
 
 object Main extends App {
 
-  val dotenv: Dotenv = Dotenv.load()
+  // Chargement des variables d'environnement depuis .env
+  val dotenv: Dotenv = Dotenv.configure()
+    .directory("C:\\Users\\acer\\Documents\\ProjetAkka-main\\backend\\docker\\deployment")
+    .load()
 
-  // Charger et définir dans les propriétés système
   dotenv.entries().forEach { entry =>
     System.setProperty(entry.getKey, entry.getValue)
   }
@@ -31,12 +30,22 @@ object Main extends App {
   implicit val executionContext = system.dispatcher
   val server = Http().newServerAt("localhost", 9090).bind(Routes.routes)
 
-  server.map { _ =>
-    println("Successfully started on localhost:9090")
-  } recover {
-    case ex =>
-      println("Failed to start the server due to: " + ex.getMessage)
+  implicit val system: ActorSystem = ActorSystem("InvestmentSystem")
+  implicit val executionContext: ExecutionContext = system.dispatcher
+
+  // Connexion à la base de données PostgreSQL avec gestion d'erreur
+  val db = try {
+    Database.forURL(
+      url = dbUrl,
+      user = dbUser,
+      password = dbPassword,
+      driver = "org.postgresql.Driver"
+    )
+  } catch {
+    case ex: Exception =>
+      println(s" Erreur de connexion à PostgreSQL: ${ex.getMessage}")
       system.terminate()
+      throw ex
   }
 
   //Récuppération donnée
@@ -62,13 +71,31 @@ object Main extends App {
   val marketActor = system.actorOf(Props[MarketDataActor], "marketDataActor")
   val marketManager = system.actorOf(Props(new MarketManagerActor(marketActor)), "marketManager")
 
-  // Envoi de messages aux acteurs
-  user ! CreatePortfolio("user1")
-  user ! AddStockToPortfolio("AAPL", 10)
-  user ! AddStockToPortfolio("TSLA", 5)
-  user ! ShowPortfolio
+  // Authentification avec UserRepository
+  val userRepository = new UserRepository(db)
+  val authActor = system.actorOf(Props(new AuthActor(userRepository)), "authActor")
 
-  marketManager ! StartFetching
+  // Définition des routes Akka HTTP
+  val authRoutes = new AuthRoutes(authActor).route
+  val allRoutes = concat(Routes.routes, authRoutes)
+
+  // Lancement du serveur HTTP Akka avec gestion d'erreur
+  val server = try {
+    Http().newServerAt("localhost", 8080).bind(allRoutes)
+  } catch {
+    case ex: Exception =>
+      println(s" Erreur lors du démarrage du serveur: ${ex.getMessage}")
+      system.terminate()
+      throw ex
+  }
+
+  server.map { _ =>
+    println(" Serveur démarré sur http://localhost:8080")
+  } recover {
+    case ex =>
+      println(s" Erreur au démarrage du serveur: ${ex.getMessage}")
+      system.terminate()
+  }
 
   // Exemple de simulation
   simulationActor ! SimulateInvestment(10000, 10, 5, 1)
