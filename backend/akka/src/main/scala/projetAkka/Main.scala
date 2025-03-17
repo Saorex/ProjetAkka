@@ -7,6 +7,7 @@ import io.github.cdimascio.dotenv.Dotenv
 import akka.actor.{ActorSystem, Props}
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Directives._
+import akka.http.scaladsl.server.Route
 import slick.jdbc.PostgresProfile.api._
 import scala.concurrent.ExecutionContext
 import scala.io.StdIn
@@ -61,7 +62,7 @@ object Main extends App {
 
   // Définition des routes Akka HTTP
   val authRoutes = new AuthRoutes(authActor).route
-  val allRoutes = concat(Routes.routes, authRoutes)
+  val allRoutes: Route = Routes.routes(authActor) ~ authRoutes  
 
   // Lancement du serveur HTTP Akka avec gestion d'erreur
   val server = try {

@@ -19,6 +19,8 @@ lazy val root = (project in file("."))
 
     libraryDependencies ++= Seq(
       //  Akka Core
+      "com.typesafe.akka" %% "akka-actor" % "2.6.17",
+      "org.postgresql" % "postgresql" % "42.2.5",
       "com.typesafe.akka" %% "akka-actor-typed" % "2.8.0",
       "com.typesafe.akka" %% "akka-stream" % "2.8.0",
       "com.typesafe.akka" %% "akka-http" % "10.2.10",
@@ -32,6 +34,9 @@ lazy val root = (project in file("."))
 
       //  PostgreSQL Driver
       "org.postgresql" % "postgresql" % "42.6.0",
+      "org.mindrot" % "jbcrypt" % "0.4",
+      "org.slf4j" % "slf4j-api" % "1.7.30",
+      "org.slf4j" % "slf4j-simple" % "1.7.30",
 
       //  Slick pour la connexion DB
       "com.typesafe.slick" %% "slick" % "3.4.1",

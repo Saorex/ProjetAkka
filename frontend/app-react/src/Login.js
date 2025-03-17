@@ -22,17 +22,18 @@ const Login = () => {
 
       if (response.ok) {
         const data = await response.json();
-        localStorage.setItem("authToken", data.token); // Stocker le token pour les futures requêtes
-        navigate('/board');  // Rediriger après succès
+        localStorage.setItem("authToken", data.token); // Stocker le token
+        navigate('/board'); // Rediriger après succès
       } else {
-        setErrorMessage(" Identifiants incorrects !");
+        const data = await response.text(); // Récupérer l'erreur envoyée par le backend
+        setErrorMessage(data); // Afficher le message d'erreur
       }
     } catch (error) {
       setErrorMessage("Erreur de connexion au serveur.");
     }
   };
 
-return (
+  return (
     <div className='login'>
       <h1>Donne ta tune.net</h1>
       <div className='login-div'>
@@ -68,7 +69,7 @@ return (
         </form>
       </div>
     </div>
-);
+  );
 };
 
 export default Login;
