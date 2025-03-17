@@ -26,6 +26,7 @@ export default function PieChart() {
           font: {
             size: 12,
           },
+          color: '#f0f0f0',
         },
       },
     },

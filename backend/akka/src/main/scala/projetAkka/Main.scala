@@ -56,9 +56,11 @@ object Main extends App {
   val dataFetcher = system.actorOf(Props(new DataFetcherActor(symbols)), "dataFetcher")
 
   // Création des acteurs
+  val userActor = system.actorOf(Props[UserActor], "userActor")
+  val marketActor = system.actorOf(Props[MarketDataActor], "marketActor")
+  val simulationActor = system.actorOf(Props[SimulationActor], "simulationActor")
   val marketActor = system.actorOf(Props[MarketDataActor], "marketDataActor")
   val marketManager = system.actorOf(Props(new MarketManagerActor(marketActor)), "marketManager")
-  val user = system.actorOf(Props[UserActor], "userActor")
 
   // Envoi de messages aux acteurs
   user ! CreatePortfolio("user1")
@@ -68,6 +70,9 @@ object Main extends App {
 
   marketManager ! StartFetching
 
+  // Exemple de simulation
+  simulationActor ! SimulateInvestment(10000, 10, 5, 1)
+  
   // Attente pour maintenir le serveur en vie
   println("Press ENTER to stop the server...")
   StdIn.readLine()

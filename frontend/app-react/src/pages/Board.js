@@ -23,7 +23,7 @@ const Board = () => {
         </div>
       </main>
       <footer className="footer">
-        <p>Pied de page</p>
+        <p>®CyTech</p>
       </footer>
     </div>
   );
