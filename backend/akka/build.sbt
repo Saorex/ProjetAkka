@@ -3,10 +3,13 @@ ThisBuild / scalaVersion := "2.13.12"
 // Repository pour Akka Persistence JDBC
 ThisBuild / resolvers += "Lightbend Repository".at("https://repo.lightbend.com/lightbend/maven-releases/")
 
+Compile / run := (Compile / run).dependsOn(Compile / compile).evaluated
+
 lazy val root = (project in file("."))
   .settings(
       name := "Projet-Akka",
       version := "0.1.0",
+      Compile / unmanagedResourceDirectories += baseDirectory.value / "src" / "main" / "resources",
       libraryDependencies ++= Seq(
           // Akka Actor System
           "com.typesafe.akka" %% "akka-actor-typed" % "2.8.0",
@@ -40,7 +43,7 @@ lazy val root = (project in file("."))
           // Gestion des variables d'environnement
           "io.github.cdimascio" % "dotenv-java" % "3.0.0"
       )
-  )
+ )
 
 enablePlugins(JavaAppPackaging, DockerPlugin)
 dockerBaseImage := "openjdk:11"
