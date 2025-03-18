@@ -8,16 +8,20 @@ import Board from "./pages/Board";
 import Test from "./pages/test";
 import AssetForm from './pages/AssetForm';
 import Simulation from './pages/Simulation';
+import Signup from './pages/Signup';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
       <Routes>
           <Route path='/' element={<App/>}/>
+          <Route path="/signup" element={<Signup />} />
           <Route path="/board" element={<Board />} />
           <Route path="/test" element={<Test />} />
           <Route path="/assetform" element={<AssetForm />} />
           <Route path="/simulations" element={<Simulation />} />
+          
       </Routes>
   </BrowserRouter>
 );
