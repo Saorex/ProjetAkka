@@ -8,8 +8,6 @@ import akka.http.scaladsl.server.Directives._
 import akka.pattern.ask
 import akka.util.Timeout
 
-
-import spray.json._
 import play.api.libs.json._
 import de.heikoseeberger.akkahttpplayjson.PlayJsonSupport._
 
@@ -28,10 +26,10 @@ import ch.megard.akka.http.cors.scaladsl.CorsDirectives._
 case class LoginRequest(username: String, password: String)
 case class LoginResponse(token: String)
 
-trait JsonSupport extends DefaultJsonProtocol {
-  implicit val loginRequestFormat: RootJsonFormat[LoginRequest] = jsonFormat2(LoginRequest)
-  implicit val loginResponseFormat: RootJsonFormat[LoginResponse] = jsonFormat1(LoginResponse)
-}
+//trait JsonSupport extends DefaultJsonProtocol {
+//  implicit val loginRequestFormat: RootJsonFormat[LoginRequest] = jsonFormat2(LoginRequest)
+//  implicit val loginResponseFormat: RootJsonFormat[LoginResponse] = jsonFormat1(LoginResponse)
+//}
 
 
 /*class AuthRoutes(authActor: ActorRef)(implicit ec: ExecutionContext) extends JsonSupport {

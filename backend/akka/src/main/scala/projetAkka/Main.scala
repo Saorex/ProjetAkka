@@ -31,9 +31,6 @@ object Main extends App {
   implicit val executionContext: scala.concurrent.ExecutionContextExecutor = system.dispatcher
   implicit val timeout: Timeout = Timeout(5.seconds)
 
-  // Création de l'acteur SimulationActor
-  val simulationActor = system.actorOf(Props[SimulationActor], "simulationActor")
-
   // Initialisation des routes
   val routes = new Routes(simulationActor)
 
@@ -56,7 +53,7 @@ object Main extends App {
   // Création des acteurs
   val userActor = system.actorOf(Props[UserActor], "userActor")
   val marketActor = system.actorOf(Props[MarketDataActor], "marketDataActor")
-  val simulationActor = system.actorOf(Props[SimulationActor], "simulationActor"
+  val simulationActor = system.actorOf(Props[SimulationActor], "simulationActor")
   val marketManager = system.actorOf(Props(new MarketManagerActor(marketActor)), "marketManager")
 
   // Envoi de messages aux acteurs
@@ -68,10 +65,6 @@ object Main extends App {
   // Authentification avec UserRepository
   val userRepository = new UserRepository()
   val authActor = system.actorOf(Props(new AuthActor(userRepository)), "authActor")
-
-  // Définition des routes Akka HTTP
-  val authRoutes = new AuthRoutes(authActor).route
-  val allRoutes: Route = Routes.routes(authActor) ~ authRoutes  
 
   // Démarrage du serveur HTTP Akka 
   val server = try {

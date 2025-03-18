@@ -62,11 +62,3 @@ dockerExposedPorts ++= Seq(8080, 9000)
 dockerUsername := Some("saorex")
 dockerRepository := Some("saorex")
 dockerAlias := dockerAlias.value.withRegistryHost(Some("docker.io"))
-
-// Configuration pour sbt-assembly
-enablePlugins(AssemblyPlugin)
-
-assembly / mergeStrategy := {
-  case PathList("META-INF", "services", _*) => MergeStrategy.concat
-  case _ => MergeStrategy.first
-}
