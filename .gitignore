@@ -1,5 +1,0 @@
-backend/docker/deployment/.env
-backend/akka/target/
-backend/akka/project/target/
-backend/akka/project/project/
-frontend/app-react/node_modules/
