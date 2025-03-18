@@ -1,7 +1,7 @@
 package projetAkka.backend
 
 import projetAkka.backend.actors._
-import projetAkka.backend.routes.Routes
+import projetAkka.backend.routes._
 import projetAkka.backend.database._
 
 import io.github.cdimascio.dotenv.Dotenv
@@ -36,8 +36,6 @@ object Main extends App {
 
   // Initialisation des routes
   val routes = new Routes(simulationActor)
-  implicit val system: ActorSystem = ActorSystem("InvestmentSystem")
-  implicit val executionContext: ExecutionContext = system.dispatcher
 
   // Récupération des données
   val symbols = List(
@@ -67,12 +65,11 @@ object Main extends App {
   userActor ! ShowPortfolio
 
   // Authentification avec UserRepository
-  val userRepository = new UserRepository(db)
+  val userRepository = new UserRepository()
   val authActor = system.actorOf(Props(new AuthActor(userRepository)), "authActor")
 
   // Définition des routes Akka HTTP
   val authRoutes = new AuthRoutes(authActor).route
-  val allRoutes = concat(Routes.routes, authRoutes)
 
   // Lancement du serveur HTTP Akka avec gestion d'erreur
   val server = try {
