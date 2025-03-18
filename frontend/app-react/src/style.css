@@ -12,6 +12,7 @@ html,body{
 }
 
 .login h1{
+    animation: fadeInTop 0.5s linear;
     margin-right: auto;
     margin-left: auto;
     margin-bottom: 50px;
@@ -25,6 +26,7 @@ html,body{
 }
 
 .login-div{
+    animation: fadeInBottom 0.5s ease;
     position: relative;
     color: #f0f0f0;
     margin-right: auto;
@@ -132,4 +134,47 @@ html,body{
 .login-button:hover::before {
     width: 250%;
 }
-  
+
+@keyframes fadeInTop {
+    from {
+        opacity: 0.5;
+        transform: translateY(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInBottom {
+    from {
+        opacity: 0.5;
+        transform: translateY(-100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOutBottom {
+    to {
+        opacity: 0;
+        transform: translateY(100px);
+    }
+}
+
+@keyframes fadeOutTop {
+    to {
+        opacity: 0;
+        transform: translateY(-100px);
+    }
+}
+
+.fade-out-bottom{
+    animation: fadeOutBottom 0.5s ease forwards;
+}
+
+.fade-out-top h1{
+    animation: fadeOutTop 0.5s ease forwards;
+}

@@ -23,15 +23,28 @@ export default function Simulation() {
 
   const handleSimulate = async (e) => {
     e.preventDefault();
-    const response = await fetch('http://localhost:3000/simulations', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    });
-    const data = await response.json();
-    setResults(data);
+  
+    // Log the raw JSON payload before sending the request
+    console.log("Request Payload:", JSON.stringify(formData, null, 2));
+  
+    try {
+      const response = await fetch('http://localhost:8080/simulations', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const data = await response.json();
+      setResults(data);
+    } catch (error) {
+      console.error('Failed to fetch:', error);
+    }
   };
 
   const chartData = results && {
