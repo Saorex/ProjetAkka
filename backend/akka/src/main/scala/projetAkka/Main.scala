@@ -11,10 +11,14 @@ import scala.concurrent.duration._
 import scala.io.StdIn
 import slick.jdbc.PostgresProfile.api._
 import akka.util.Timeout
+import java.nio.file.Paths
 
 object Main extends App {
 
-  val dotenv: Dotenv = Dotenv.load()
+  val dotenv = Dotenv.configure()
+    .directory(Paths.get("../docker/deployment/").toAbsolutePath.toString)
+    .filename(".env")
+    .load()
 
   // Charger et définir dans les propriétés système
   dotenv.entries().forEach { entry =>

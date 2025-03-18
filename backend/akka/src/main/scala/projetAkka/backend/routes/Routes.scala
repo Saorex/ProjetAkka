@@ -10,6 +10,8 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
 import de.heikoseeberger.akkahttpplayjson.PlayJsonSupport._
 import projetAkka.backend.actors._
+import akka.http.scaladsl.model.headers._
+import akka.http.scaladsl.model.HttpMethods._ // Importez les méthodes HTTP
 import akka.http.scaladsl.model.StatusCodes._
 
 class Routes(simulationActor: ActorRef)(implicit system: ActorSystem, executionContext: ExecutionContext, timeout: Timeout) {
@@ -17,7 +19,20 @@ class Routes(simulationActor: ActorRef)(implicit system: ActorSystem, executionC
   implicit val simulateInvestmentFormat: Format[SimulateInvestment] = Json.format[SimulateInvestment]
   implicit val simulationResultFormat: Format[SimulationResult] = Json.format[SimulationResult]
 
-  val routes: Route =
+  val corsHandler = {
+    respondWithHeaders(
+      `Access-Control-Allow-Origin`.*,
+      `Access-Control-Allow-Credentials`(true),
+      `Access-Control-Allow-Headers`("Content-Type", "X-Requested-With"),
+      `Access-Control-Allow-Methods`(OPTIONS, POST)
+    ) {
+      options {
+        complete(OK)
+      } ~ route
+    }
+  }
+
+  val route: Route =
     path("simulations") {
       post {
         entity(as[JsValue]) { json =>
@@ -32,4 +47,6 @@ class Routes(simulationActor: ActorRef)(implicit system: ActorSystem, executionC
         }
       }
     }
+
+  val routes: Route = corsHandler
 }

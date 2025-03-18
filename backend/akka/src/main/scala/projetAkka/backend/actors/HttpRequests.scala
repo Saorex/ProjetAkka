@@ -15,9 +15,14 @@ import io.github.cdimascio.dotenv.Dotenv
 import scala.io.StdIn
 import projetAkka.backend.actors.{SimulateInvestment, SimulationResult, SimulationActor}
 import projetAkka.backend.routes.Routes
+import java.nio.file.Paths
+
 
 object WebServer {
-  val dotenv: Dotenv = Dotenv.load()
+  val dotenv = Dotenv.configure()
+    .directory(Paths.get("../docker/deployment/").toAbsolutePath.toString)
+    .filename(".env")
+    .load()
 
   // Charger et définir dans les propriétés système
   dotenv.entries().forEach { entry =>
@@ -37,8 +42,10 @@ object WebServer {
     val routes = new Routes(simulationActor)
 
     // Démarrage du serveur HTTP
-    val bindingFuture = Http().bindAndHandle(routes.routes, "localhost", 3000)
-    println(s"Server now online. Please navigate to http://localhost:3000/\nPress RETURN to stop...")
+    // Le port suivant ne doit pas se confondre avec le frontend :
+    // 
+    val bindingFuture = Http().bindAndHandle(routes.routes, "localhost", 8080)
+    println(s"Server now online. Please navigate to http://localhost:8080/\nPress RETURN to stop...")
     StdIn.readLine()
     bindingFuture
       .flatMap(_.unbind())
