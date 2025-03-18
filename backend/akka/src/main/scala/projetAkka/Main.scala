@@ -7,18 +7,19 @@ import projetAkka.backend.database._
 import io.github.cdimascio.dotenv.Dotenv
 import akka.actor.{ActorSystem, Props}
 import akka.http.scaladsl.Http
+
 import scala.concurrent.duration._
 import scala.io.StdIn
 import slick.jdbc.PostgresProfile.api._
 import akka.util.Timeout
 import java.nio.file.Paths
+import akka.http.scaladsl.server.Directives._
+import scala.concurrent.ExecutionContext
 
 object Main extends App {
 
-  val dotenv = Dotenv.configure()
-    .directory(Paths.get("../docker/deployment/").toAbsolutePath.toString)
-    .filename(".env")
-    .load()
+  // Chargement des variables d'environnement depuis .env
+  val dotenv: Dotenv = Dotenv.load()
 
   // Charger et définir dans les propriétés système
   dotenv.entries().forEach { entry =>
@@ -35,6 +36,8 @@ object Main extends App {
 
   // Initialisation des routes
   val routes = new Routes(simulationActor)
+  implicit val system: ActorSystem = ActorSystem("InvestmentSystem")
+  implicit val executionContext: ExecutionContext = system.dispatcher
 
   // Récupération des données
   val symbols = List(
@@ -63,7 +66,31 @@ object Main extends App {
   userActor ! AddStockToPortfolio("TSLA", 5)
   userActor ! ShowPortfolio
 
-  marketManager ! StartFetching
+  // Authentification avec UserRepository
+  val userRepository = new UserRepository(db)
+  val authActor = system.actorOf(Props(new AuthActor(userRepository)), "authActor")
+
+  // Définition des routes Akka HTTP
+  val authRoutes = new AuthRoutes(authActor).route
+  val allRoutes = concat(Routes.routes, authRoutes)
+
+  // Lancement du serveur HTTP Akka avec gestion d'erreur
+  val server = try {
+    Http().newServerAt("localhost", 8080).bind(allRoutes)
+  } catch {
+    case ex: Exception =>
+      println(s" Erreur lors du démarrage du serveur: ${ex.getMessage}")
+      system.terminate()
+      throw ex
+  }
+
+  server.map { _ =>
+    println(" Serveur démarré sur http://localhost:8080")
+  } recover {
+    case ex =>
+      println(s" Erreur au démarrage du serveur: ${ex.getMessage}")
+      system.terminate()
+  }
 
   // Exemple de simulation
   simulationActor ! SimulateInvestment(10000, 10, 5, 1)

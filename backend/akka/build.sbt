@@ -1,5 +1,9 @@
+import sbtassembly.AssemblyPlugin
+import sbt.Keys._
+
 ThisBuild / version := "0.1.0-SNAPSHOT"
 ThisBuild / scalaVersion := "2.13.12"
+
 // Repository pour Akka Persistence JDBC
 ThisBuild / resolvers += "Lightbend Repository".at("https://repo.lightbend.com/lightbend/maven-releases/")
 
@@ -45,8 +49,10 @@ lazy val root = (project in file("."))
       )
  )
 
+//  Configuration Docker
 enablePlugins(JavaAppPackaging, DockerPlugin)
-dockerBaseImage := "openjdk:11"
+
+dockerBaseImage := "openjdk:17"
 dockerExposedPorts ++= Seq(8080, 9000)
 dockerUsername := Some("saorex")
 dockerRepository := Some("saorex")
