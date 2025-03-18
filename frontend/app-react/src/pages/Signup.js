@@ -21,7 +21,7 @@ const Signup = () => {
 
     // Simuler une requête backend
     setTimeout(() => {
-      navigate('/login'); // Rediriger vers la page de connexion après l'inscription
+      navigate('/'); // Rediriger vers la page de connexion après l'inscription
     }, 500);
   };
 

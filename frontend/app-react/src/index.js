@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Link,Routes,Route,BrowserRouter } from 'react-router-dom';
 import './index.css';
-import App from './Login';
+import Login from './Login';
 import reportWebVitals from './reportWebVitals';
 import Board from "./pages/Board";
 import Test from "./pages/test";
@@ -15,12 +15,12 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
       <Routes>
-          <Route path='/' element={<App/>}/>
           <Route path="/signup" element={<Signup />} />
           <Route path="/board" element={<Board />} />
           <Route path="/test" element={<Test />} />
           <Route path="/assetform" element={<AssetForm />} />
           <Route path="/simulations" element={<Simulation />} />
+          <Route path="/" element={<Login />} />
           
       </Routes>
   </BrowserRouter>
