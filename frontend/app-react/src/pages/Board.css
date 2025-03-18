@@ -26,6 +26,7 @@ main {
   background-image: linear-gradient(to right, #0f0c29, #302b63, #24243e);
   text-align: center;
   color: #f0f0f0;
+  animation: fadeInBottom 0.5s ease;
 }
 
 .card-container {
@@ -33,15 +34,52 @@ main {
   flex-direction: column;
   background-color: #001833cc;
   padding: 16px;
+  animation: fadeInLeft 0.5s ease;
 }
 
 .chart-container{
   text-align: center;
 }
 
-
 .chart-container > canvas{
   margin-left: auto;
   margin-right: auto;
-  
+}
+
+main{
+  animation: fadeInRigth 0.5s ease;
+}
+
+
+@keyframes fadeInLeft {
+  from {
+      opacity: 0.5;
+      transform: translateX(-200px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+@keyframes fadeInRigth {
+  from {
+      opacity: 0.5;
+      transform: translateX(200px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+@keyframes fadeInBottom {
+  from {
+      opacity: 0.5;
+      transform: translateY(100px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
 }

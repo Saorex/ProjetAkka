@@ -6,6 +6,16 @@
   background-image: linear-gradient(to right, #0f0c29, #302b63, #24243e);
   height: 100%;
   color: #f0f0f0;
+  animation: fadeInTop 0.5s ease;
 }
 
-
+@keyframes fadeInTop {
+  from {
+      opacity: 0.5;
+      transform: translateY(-100px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}

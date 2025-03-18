@@ -8,45 +8,36 @@ import akka.actor.{ActorSystem, Props}
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
-import slick.jdbc.PostgresProfile.api._
-import scala.concurrent.ExecutionContext
+import scala.concurrent.duration._
 import scala.io.StdIn
+import slick.jdbc.PostgresProfile.api._
+import akka.util.Timeout
+import java.nio.file.Paths
+import akka.http.scaladsl.server.Directives._
+import scala.concurrent.ExecutionContext
 
 object Main extends App {
 
   // Chargement des variables d'environnement depuis .env
-  val dotenv: Dotenv = Dotenv.configure()
-    .directory("C:\\Users\\acer\\Documents\\ProjetAkka-main\\backend\\docker\\deployment")
-    .load()
+  val dotenv: Dotenv = Dotenv.load()
 
+  // Charger et définir dans les propriétés système
   dotenv.entries().forEach { entry =>
     System.setProperty(entry.getKey, entry.getValue)
   }
 
   // Initialisation de l'Actor System
   implicit val system: ActorSystem = ActorSystem("InvestmentSystem")
-  implicit val executionContext: ExecutionContext = system.dispatcher
+  implicit val executionContext: scala.concurrent.ExecutionContextExecutor = system.dispatcher
+  implicit val timeout: Timeout = Timeout(5.seconds)
 
-  // Connexion à la base de données PostgreSQL avec gestion d'erreur
-  val dbUrl = System.getProperty("POSTGRES_URL", "jdbc:postgresql://localhost:5432/akka")
-  val dbUser = System.getProperty("POSTGRES_USER", "admin")
-  val dbPassword = System.getProperty("POSTGRES_PASSWORD", "B9&!hm%dQ@GLWSrEWC8j")
+  // Création de l'acteur SimulationActor
+  val simulationActor = system.actorOf(Props[SimulationActor], "simulationActor")
 
-  val db = try {
-    Database.forURL(
-      url = dbUrl,
-      user = dbUser,
-      password = dbPassword,
-      driver = "org.postgresql.Driver"
-    )
-  } catch {
-    case ex: Exception =>
-      println(s"Erreur de connexion à PostgreSQL: ${ex.getMessage}")
-      system.terminate()
-      throw ex
-  }
+  // Initialisation des routes
+  val routes = new Routes(simulationActor)
 
-  // Récupération des données 
+  // Récupération des données
   val symbols = List(
     "BTCUSDT",
     "ETHUSDT",
@@ -65,11 +56,17 @@ object Main extends App {
   // Création des acteurs
   val userActor = system.actorOf(Props[UserActor], "userActor")
   val marketActor = system.actorOf(Props[MarketDataActor], "marketDataActor")
-  val simulationActor = system.actorOf(Props[SimulationActor], "simulationActor")
+  val simulationActor = system.actorOf(Props[SimulationActor], "simulationActor"
   val marketManager = system.actorOf(Props(new MarketManagerActor(marketActor)), "marketManager")
 
+  // Envoi de messages aux acteurs
+  userActor ! CreatePortfolio("user1")
+  userActor ! AddStockToPortfolio("AAPL", 10)
+  userActor ! AddStockToPortfolio("TSLA", 5)
+  userActor ! ShowPortfolio
+
   // Authentification avec UserRepository
-  val userRepository = new UserRepository(db)
+  val userRepository = new UserRepository()
   val authActor = system.actorOf(Props(new AuthActor(userRepository)), "authActor")
 
   // Définition des routes Akka HTTP
@@ -96,9 +93,24 @@ object Main extends App {
 
 
   simulationActor ! SimulateInvestment(10000, 10, 5, 1)
-  
-  
-  println("Appuie sur ENTRÉE pour arrêter le serveur...")
+
+  // Démarrage du serveur HTTP
+  val bindingFuture = Http().newServerAt("localhost", 8080).bind(routes.routes)
+
+  bindingFuture.map { binding =>
+    println(s"Server now online at http://${binding.localAddress.getHostString}:${binding.localAddress.getPort}/")
+  }.recover {
+    case ex =>
+      println(s"Failed to start the server: ${ex.getMessage}")
+      system.terminate()
+  }
+
+  // Bloque le thread principal mais permet aux acteurs et au serveur de tourner
+  println("Press ENTER to stop the server...")
   StdIn.readLine()
-  system.terminate()
+
+  // Arrêt propre du serveur et de l'ActorSystem
+  bindingFuture.flatMap(_.unbind()).onComplete { _ =>
+    system.terminate()
+  }
 }

@@ -17,8 +17,8 @@ class UserTable(tag: Tag) extends Table[User](tag, "users") {
   def * = (id, username, email, passwordHash, walletKey) <> ((User.apply _).tupled, User.unapply)
 }
 
-class UserRepository(db: Database)(implicit ec: ExecutionContext) {
-
+class UserRepository()(implicit ec: ExecutionContext) {
+  val db = Database.forConfig("akka.persistence.jdbc.slick.db")
   private val users = TableQuery[UserTable]
   private val log = LoggerFactory.getLogger(getClass)  
 

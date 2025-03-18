@@ -1,0 +1,85 @@
+.signup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+  }
+  
+  .signup-div {
+    border: 1px solid #ccc;
+    padding: 30px; /* Augmenter le padding pour plus d'espace */
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Assurez-vous que le conteneur prend toute la largeur disponible */
+    max-width: 400px; /* Limitez la largeur maximale pour un meilleur contrôle */
+    box-sizing: border-box; /* Inclure le padding et la bordure dans la largeur totale */
+  }
+  
+  .signup-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Assurez-vous que le formulaire prend toute la largeur disponible */
+  }
+  
+  .signup-form div {
+    position: relative;
+    margin-bottom: 20px; /* Augmenter la marge pour plus d'espace entre les champs */
+  }
+  
+  .signup-form input {
+    width: 100%;
+    padding: 12px; /* Augmenter le padding pour plus de confort */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Inclure le padding et la bordure dans la largeur totale */
+  }
+  
+  .signup-label {
+    position: absolute;
+    top: -12px; /* Ajuster la position pour mieux correspondre au champ */
+    left: 12px;
+    background-color: white;
+    padding: 0 5px;
+    font-size: 12px;
+    color: #999;
+  }
+  
+  .signup-button {
+    padding: 12px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%; /* Assurez-vous que le bouton prend toute la largeur disponible */
+    box-sizing: border-box; /* Inclure le padding et la bordure dans la largeur totale */
+  }
+  
+  .signup-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .fade-out-top {
+    animation: fadeOutTop 0.5s ease-in-out forwards;
+  }
+  
+  .fade-out-bottom {
+    animation: fadeOutBottom 0.5s ease-in-out forwards;
+  }
+  
+  @keyframes fadeOutTop {
+    to {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+  }
+  
+  @keyframes fadeOutBottom {
+    to {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+  }
+  
