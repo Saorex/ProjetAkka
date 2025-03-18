@@ -36,17 +36,6 @@ object Main extends App {
   // Initialisation des routes
   val routes = new Routes(simulationActor)
 
-  // Démarrage du serveur HTTP
-  val server = Http().newServerAt("localhost", 9090).bind(routes.routes)
-
-  server.map { _ =>
-    println("Successfully started on localhost:9090")
-  } recover {
-    case ex =>
-      println("Failed to start the server due to: " + ex.getMessage)
-      system.terminate()
-  }
-
   // Récupération des données
   val symbols = List(
     "BTCUSDT",
@@ -79,8 +68,23 @@ object Main extends App {
   // Exemple de simulation
   simulationActor ! SimulateInvestment(10000, 10, 5, 1)
 
-  // Attente pour maintenir le serveur en vie
+  // Démarrage du serveur HTTP
+  val bindingFuture = Http().newServerAt("localhost", 8080).bind(routes.routes)
+
+  bindingFuture.map { binding =>
+    println(s"Server now online at http://${binding.localAddress.getHostString}:${binding.localAddress.getPort}/")
+  }.recover {
+    case ex =>
+      println(s"Failed to start the server: ${ex.getMessage}")
+      system.terminate()
+  }
+
+  // Bloque le thread principal mais permet aux acteurs et au serveur de tourner
   println("Press ENTER to stop the server...")
   StdIn.readLine()
-  system.terminate()
+
+  // Arrêt propre du serveur et de l'ActorSystem
+  bindingFuture.flatMap(_.unbind()).onComplete { _ =>
+    system.terminate()
+  }
 }
