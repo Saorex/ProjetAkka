@@ -18,6 +18,10 @@ Avant de démarrer le projet, assurez-vous d'avoir installé les éléments suiv
 
 ```bash
 cd ./backend/docker/deployment
+
+Lancer Docker Desktop
+
+Puis dans le back :
 docker compose up -d postgresDB --build
 ```
 

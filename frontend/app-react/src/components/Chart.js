@@ -18,9 +18,32 @@ export default function Chart() {
     ],
   };
 
+  const options = {
+    plugins: {
+      legend: {
+        labels: {
+          color: '#f0f0f0',
+        },
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: '#f0f0f0',
+        },
+      },
+      y: {
+        ticks: {
+          color: '#f0f0f0',
+        },
+      },
+    },
+  };
+
+
   return (
     <div className="chart-container">
-      <Line data={data} />
+      <Line data={data} options={options}/>
     </div>
   );
 }
