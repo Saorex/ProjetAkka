@@ -11,6 +11,7 @@ html,body{
     "navbar navbar"
     "card-container main"
     "footer footer";
+  grid-template-rows: 60px auto 60px;
   background-image: url('../asset/img/backlogin.jpg');
   background-size: 100%;
 }

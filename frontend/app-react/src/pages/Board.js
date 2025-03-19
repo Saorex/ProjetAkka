@@ -4,15 +4,16 @@ import Chart from "../components/Chart";
 import Card from "../components/Card";
 import PieChart from "../components/PieChart";
 import './Board.css';
+import { useState } from 'react';
 
 const Board = () => {
-  const password = localStorage.getItem('password');
 
-  console.log(password);
+  const [isLeaving, setIsLeaving] = useState(false);
+
 
   return (
     <div className="Board">
-      <Navbar className="navbar" />
+      <Navbar className="navbar" onLeavingChange={setIsLeaving}/>
       <div className="card-container">
         <Card title="Renault" description="Augmentation de 3%" />
         <Card title="Sopra Steria" description="Diminution de 1%" />

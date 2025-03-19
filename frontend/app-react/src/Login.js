@@ -21,9 +21,9 @@ const Login = () => {
     }, 500);
   };
 
-  const handleSignUpClick = () => {
+  /*const handleSignUpClick = () => {
     navigate('/signup'); // Rediriger vers la page d'inscription
-  };
+  };*/
 
   return (
     <>

@@ -9,6 +9,7 @@ import Test from "./pages/test";
 import AssetForm from './pages/AssetForm';
 import Simulation from './pages/Simulation';
 import Signup from './pages/Signup';
+import AddFunds from './pages/AddFunds';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -17,6 +18,7 @@ root.render(
       <Routes>
           <Route path="/signup" element={<Signup />} />
           <Route path="/board" element={<Board />} />
+          <Route path="/addfunds" element={<AddFunds />} />
           <Route path="/test" element={<Test />} />
           <Route path="/assetform" element={<AssetForm />} />
           <Route path="/simulations" element={<Simulation />} />
