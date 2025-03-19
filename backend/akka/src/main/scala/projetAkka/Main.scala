@@ -49,9 +49,7 @@ object Main extends App {
   val dataFetcher = system.actorOf(Props(new DataFetcherActor(symbols)), "dataFetcher")
 
   // Création des acteurs
-  val marketActor = system.actorOf(Props[MarketDataActor], "marketDataActor")
   val simulationActor = system.actorOf(Props[SimulationActor], "simulationActor")
-  val marketManager = system.actorOf(Props(new MarketManagerActor(marketActor)), "marketManager")
 
   // Authentification avec UserRepository
   val userRepository = new UserRepository()

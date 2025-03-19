@@ -22,7 +22,6 @@ class UserRepository()(implicit ec: ExecutionContext) {
   private val users = TableQuery[UserTable]
   private val log = LoggerFactory.getLogger(getClass)  
 
-  
   def validateUser(username: String, password: String): Future[Either[String, String]] = {
     log.info(s"Vérification des identifiants pour l'utilisateur : $username")
 
