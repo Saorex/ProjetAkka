@@ -14,23 +14,24 @@ object AuthActor {
 
 class AuthActor(userRepository: UserRepository) extends Actor {
   import AuthActor._
-  
+
   val log = Logging(context.system, this)
 
   override def receive: Receive = {
     case Authenticate(username, password) =>
       val senderRef = sender()
       userRepository.validateUser(username, password).map {
-        case Right(success) =>
+        case either @ Right(_) =>
           log.info(s"Authentification réussie pour $username.")
-          senderRef ! success 
-        case Left(failure) =>
+          senderRef ! either
+        case either @ Left(_) =>
           log.warning(s"Authentification échouée pour $username.")
-          senderRef ! failure 
+          senderRef ! either
       }.recover {
         case ex: Exception =>
           log.error(s"Erreur d'authentification : ${ex.getMessage}")
-          senderRef ! AuthFailure("Erreur interne") 
+          senderRef ! Left("Erreur interne")
       }
   }
 }
+
