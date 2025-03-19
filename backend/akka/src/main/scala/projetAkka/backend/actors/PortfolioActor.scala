@@ -2,13 +2,12 @@ package projetAkka.backend.actors
 
 import akka.actor.Actor
 
-
 case class AddStock(symbol: String, quantity: Int)
 case class RemoveStock(symbol: String)
 case object GetPortfolio
 
 class PortfolioActor extends Actor {
-  var portfolio = Map[String, Int]() 
+  var portfolio = Map[String, Int]()
 
   def receive = {
     case AddStock(symbol, quantity) =>
