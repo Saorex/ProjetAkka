@@ -22,12 +22,13 @@ class DataFetcherActor(symbols: List[String]) extends Actor with ActorLogging {
     //Permet de faire une requête toutes les minutes pour chaque symbol
     val source = Source.tick(0.seconds, 1.minute, "tick")
       .flatMapConcat { _ =>
-        // À chaque tick, on crée une sous-source avec les symboles
+        //À chaque tick, on crée une sous-source avec les symboles
         Source(symbols)
       }
 
     //Lancement du flow
     val httpFlow = Flow[String]
+      //On effectue 5 reqûetes en même temps de manière Asynchrone
       .mapAsync(5)( symbol => {
         val apiUrl = s"https://api.binance.com/api/v3/klines?symbol=$symbol&interval=1m&limit=1"
         log.info(s"Requesting Binance API for symbol $symbol")
