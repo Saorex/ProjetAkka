@@ -1,6 +1,7 @@
 import './style.css';
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import bcrypt from 'bcryptjs';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -10,9 +11,11 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLeaving(true);
 
-    // TODO: Ajouter vérification backend
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    setIsLeaving(true);
     setTimeout(() => {
       navigate('/board'); // Navigation après l'animation
     }, 500);

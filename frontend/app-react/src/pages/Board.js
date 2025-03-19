@@ -6,6 +6,10 @@ import PieChart from "../components/PieChart";
 import './Board.css';
 
 const Board = () => {
+  const password = localStorage.getItem('password');
+
+  console.log(password);
+
   return (
     <div className="Board">
       <Navbar className="navbar" />
