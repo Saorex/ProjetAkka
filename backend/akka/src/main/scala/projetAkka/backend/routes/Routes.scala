@@ -1,52 +1,86 @@
 package projetAkka.backend.routes
 
+import projetAkka.backend.actors._
+import projetAkka.backend.actors.AuthActor._
+
 import akka.actor.{ActorRef, ActorSystem}
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.server.Directives._
 import akka.pattern.ask
 import akka.util.Timeout
+
 import play.api.libs.json._
+import de.heikoseeberger.akkahttpplayjson.PlayJsonSupport._
+
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
-import de.heikoseeberger.akkahttpplayjson.PlayJsonSupport._
-import projetAkka.backend.actors._
+
 import akka.http.scaladsl.model.headers._
 import akka.http.scaladsl.model.HttpMethods._ // Importez les méthodes HTTP
 import akka.http.scaladsl.model.StatusCodes._
+import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
+import akka.http.scaladsl.server.Route
+import akka.http.scaladsl.model.headers._
 
-class Routes(simulationActor: ActorRef)(implicit system: ActorSystem, executionContext: ExecutionContext, timeout: Timeout) {
+import ch.megard.akka.http.cors.scaladsl.CorsDirectives._
 
-  implicit val simulateInvestmentFormat: Format[SimulateInvestment] = Json.format[SimulateInvestment]
-  implicit val simulationResultFormat: Format[SimulationResult] = Json.format[SimulationResult]
+case class LoginRequest(username: String, password: String)
+case class LoginResponse(token: String)
 
-  val corsHandler = {
-    respondWithHeaders(
-      `Access-Control-Allow-Origin`.*,
-      `Access-Control-Allow-Credentials`(true),
-      `Access-Control-Allow-Headers`("Content-Type", "X-Requested-With"),
-      `Access-Control-Allow-Methods`(OPTIONS, POST)
-    ) {
-      options {
-        complete(OK)
-      } ~ route
-    }
-  }
+class AuthRoutes(authActor: ActorRef)(implicit ec: ExecutionContext, timeout: Timeout) {
+  case class LoginRequest(username: String, password: String)
+  case class LoginResponse(token: String)
 
-  val route: Route =
-    path("simulations") {
-      post {
-        entity(as[JsValue]) { json =>
-          json.validate[SimulateInvestment] match {
-            case JsSuccess(simulateInvestment, _) =>
-              onSuccess((simulationActor ? simulateInvestment).mapTo[SimulationResult]) {
-                case SimulationResult(data) => complete(Json.toJson(data))
-              }
-            case JsError(errors) =>
-              complete(BadRequest -> s"Invalid JSON: ${errors.mkString(", ")}")
+  implicit val loginRequestFormat: Format[LoginRequest] = Json.format[LoginRequest]
+  implicit val loginResponseFormat: Format[LoginResponse] = Json.format[LoginResponse]
+
+  val route: Route = cors() {
+    pathPrefix("api") {
+      path("login") {
+        post {
+          entity(as[LoginRequest]) { loginRequest =>
+            val responseFuture = (authActor ? Authenticate(loginRequest.username, loginRequest.password))
+              .mapTo[Either[String, String]]
+
+            onComplete(responseFuture) {
+              case scala.util.Success(Right(token)) => complete(LoginResponse(token))
+              case scala.util.Success(Left(errorMessage)) => complete(Unauthorized, errorMessage)
+              case scala.util.Failure(ex) => complete(InternalServerError, s"Erreur du serveur: ${ex.getMessage}")
+            }
           }
         }
       }
     }
+  }
+}
 
-  val routes: Route = corsHandler
+class SimulationRoutes(simulationActor: ActorRef)(implicit system: ActorSystem, executionContext: ExecutionContext, timeout: Timeout) {
+  implicit val simulateInvestmentFormat: Format[SimulateInvestment] = Json.format[SimulateInvestment]
+  implicit val simulationResultFormat: Format[SimulationResult] = Json.format[SimulationResult]
+
+  val route: Route = cors() {
+    pathPrefix("api") {
+      path("simulations") {
+        post {
+          entity(as[JsValue]) { json =>
+            json.validate[SimulateInvestment] match {
+              case JsSuccess(simulateInvestment, _) =>
+                onSuccess((simulationActor ? simulateInvestment).mapTo[SimulationResult]) {
+                  case SimulationResult(data) => complete(Json.toJson(data))
+                }
+              case JsError(errors) =>
+                complete(BadRequest -> s"Invalid JSON: ${errors.mkString(", ")}")
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+class ApiRoutes(authActor: ActorRef, simulationActor: ActorRef)(implicit system: ActorSystem, executionContext: ExecutionContext, timeout: Timeout) {
+  private val authRoutes = new AuthRoutes(authActor).route
+  private val simulationRoutes = new SimulationRoutes(simulationActor).route
+
+  val routes: Route = authRoutes ~ simulationRoutes
 }

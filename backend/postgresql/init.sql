@@ -10,11 +10,10 @@ CREATE TABLE IF NOT EXISTS users (
     wallet_key TEXT NOT NULL
     );
 
--- Exemple
+-- Exemple ; user 1 real password 123456
 INSERT INTO users (username, email, password_hash, wallet_key)
 VALUES
-    ('user1', 'user1@example.com', 'hashed_password_1', 'walletkey1'),
-    ('user2', 'user2@example.com', 'hashed_password_2', 'walletkey2')
+    ('user1', 'user1@example.com', '$2a$10$w1N2li.oFhRSkwm8p9PBpuAQLB7UB011Py/PYGM.eOzlNXZPi.x2C', 'walletkey1')
     ON CONFLICT (username) DO NOTHING;
 
 -- =============================

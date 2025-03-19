@@ -21,16 +21,17 @@ class AuthActor(userRepository: UserRepository) extends Actor {
     case Authenticate(username, password) =>
       val senderRef = sender()
       userRepository.validateUser(username, password).map {
-        case true  =>
+        case either @ Right(_) =>
           log.info(s"Authentification réussie pour $username.")
-          senderRef ! AuthSuccess("TOKEN_EXEMPLE") // Renvoie le token si l'authentification réussit
-        case false =>
+          senderRef ! either
+        case either @ Left(_) =>
           log.warning(s"Authentification échouée pour $username.")
-          senderRef ! AuthFailure("Identifiants incorrects") // Renvoie un échec si l'authentification échoue
+          senderRef ! either
       }.recover {
         case ex: Exception =>
           log.error(s"Erreur d'authentification : ${ex.getMessage}")
-          senderRef ! AuthFailure("Erreur interne") // Renvoie une erreur interne en cas d'exception
+          senderRef ! Left("Erreur interne")
       }
   }
 }
+
