@@ -28,7 +28,7 @@ export default function Simulation() {
     console.log("Request Payload:", JSON.stringify(formData, null, 2));
   
     try {
-      const response = await fetch('http://localhost:8080/simulations', {
+      const response = await fetch('http://localhost:8080/api/simulations', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

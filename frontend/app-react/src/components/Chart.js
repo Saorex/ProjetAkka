@@ -5,13 +5,18 @@ import './Chart.css';
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
-export default function Chart() {
+export default function Chart({ tmpdata }) {
+  if (!tmpdata || tmpdata.length === 0) return <p>No data available for the chart.</p>;
+  const sortedData = [...tmpdata].sort((a, b) => a.timestamp - b.timestamp);
   const data = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+    labels: sortedData.map((item) => {
+      const date = new Date(item.timestamp);
+      return `${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}`;
+    }),
     datasets: [
       {
         label: 'Portfolio',
-        data: [100, 120, 150, 130, 170],
+        data: sortedData.map(item => item.open),
         borderColor: 'blue',
         fill: false,
       },
@@ -40,10 +45,9 @@ export default function Chart() {
     },
   };
 
-
   return (
     <div className="chart-container">
-      <Line data={data} options={options}/>
+      <Line data={data} options={options} />
     </div>
   );
 }
