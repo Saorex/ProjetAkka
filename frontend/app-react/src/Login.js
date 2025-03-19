@@ -27,8 +27,8 @@ const Login = () => {
 
   return (
     <>
-      <div className={`login ${isLeaving ? 'fade-out-top' : ''}`}>
-        <h1>Donne ta tune.net</h1>
+      <div className={`login`}>
+        <h1 className={`login-h1 ${isLeaving ? 'fade-out-top' : ''}`} >Donne ta tune.net</h1>
         <div className={`login-div ${isLeaving ? 'fade-out-bottom' : ''}`}>
           <h2>Connexion</h2>
           <form className='login-form' onSubmit={handleSubmit}>
@@ -57,9 +57,6 @@ const Login = () => {
               Se connecter
             </button>
           </form>
-          <button className='signup-button' onClick={handleSignUpClick}>
-            S'inscrire
-          </button>
         </div>
       </div>
     </>

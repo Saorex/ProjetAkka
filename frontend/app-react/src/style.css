@@ -11,7 +11,7 @@ html,body{
     box-sizing: border-box;
 }
 
-.login h1{
+.login-h1{
     animation: fadeInTop 0.5s linear;
     margin-right: auto;
     margin-left: auto;
@@ -175,6 +175,6 @@ html,body{
     animation: fadeOutBottom 0.5s ease forwards;
 }
 
-.fade-out-top h1{
+.fade-out-top{
     animation: fadeOutTop 0.5s ease forwards;
 }
