@@ -57,6 +57,7 @@ lazy val root = (project in file("."))
 // Configuration Docker
 enablePlugins(JavaAppPackaging, DockerPlugin)
 
+// Configuration de l'image Docker
 dockerBaseImage := "openjdk:17"
 dockerExposedPorts ++= Seq(8080, 9000)
 dockerUsername := Some("saorex")
