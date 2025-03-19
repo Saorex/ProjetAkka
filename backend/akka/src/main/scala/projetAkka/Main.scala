@@ -46,7 +46,7 @@ object Main extends App {
     "WIFUSDT",
     "JUPUSDT"
   )
-  //val dataFetcher = system.actorOf(Props(new DataFetcherActor(symbols)), "dataFetcher")
+  val dataFetcher = system.actorOf(Props(new DataFetcherActor(symbols)), "dataFetcher")
 
   // Création des acteurs
   val marketActor = system.actorOf(Props[MarketDataActor], "marketDataActor")
@@ -69,24 +69,6 @@ object Main extends App {
       println(s"Erreur lors du démarrage du serveur: ${ex.getMessage}")
       system.terminate()
       throw ex
-  }
-
-  val futureResult = userRepository.createUser(
-    username = "user3",
-    password = "123456",               // Mot de passe en clair ➡️ hashé automatiquement
-    email = "user3@example.com",
-    walletKey = "walletkey3"
-  )
-
-  futureResult.onComplete {
-    case Success(Right(userId)) =>
-      println(s"Utilisateur créé avec succès ! ID: $userId")
-
-    case Success(Left(error)) =>
-      println(s"Erreur lors de la création de l'utilisateur : $error")
-
-    case Failure(exception) =>
-      println(s"Exception lors de la création de l'utilisateur : ${exception.getMessage}")
   }
 
   simulationActor ! SimulateInvestment(10000, 10, 5, 1)
