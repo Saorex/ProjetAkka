@@ -12,7 +12,7 @@ html, body {
       "navbar navbar"
       "main main"
       "footer footer";
-    grid-template-rows: 60px auto 60px;
+    grid-template-rows: 50px auto 50px;
     background-image: url('../asset/img/backlogin.jpg');
     background-size: cover;
   }
@@ -35,7 +35,7 @@ html, body {
     animation: fadeInBottom 0.5s ease;
   }
   
-  form {
+  .form {
     background-color: #001833cc;
     padding: 20px;
     height: 50%;
@@ -49,12 +49,12 @@ html, body {
     animation: fadeInUp 0.5s ease;
   }
   
-  h2 {
+  .h2 {
     color: #ffffff;
     margin-bottom: 10px;
   }
   
-  input {
+  .input {
     padding: 8px;
     margin: 10px 0;
     border: none;

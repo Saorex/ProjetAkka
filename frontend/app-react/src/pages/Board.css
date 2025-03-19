@@ -11,7 +11,7 @@ html,body{
     "navbar navbar"
     "card-container main"
     "footer footer";
-  grid-template-rows: 60px auto 60px;
+  grid-template-rows: 50px auto 50px;
   background-image: url('../asset/img/backlogin.jpg');
   background-size: 100%;
 }
@@ -31,6 +31,7 @@ main {
 }
 
 .card-container {
+  color: #f0f0f0;
   display: flex;
   flex-direction: column;
   background-color: #001833cc;
@@ -49,6 +50,11 @@ main {
 
 main{
   animation: fadeInRigth 0.5s ease;
+}
+
+.loding-chart{
+  text-align: center;
+  color: #f0f0f0;
 }
 
 

@@ -10,22 +10,25 @@ import AssetForm from './pages/AssetForm';
 import Simulation from './pages/Simulation';
 import Signup from './pages/Signup';
 import AddFunds from './pages/AddFunds';
+import { AuthProvider } from './context/AuthProvider';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <BrowserRouter>
-      <Routes>
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/board" element={<Board />} />
-          <Route path="/addfunds" element={<AddFunds />} />
-          <Route path="/test" element={<Test />} />
-          <Route path="/assetform" element={<AssetForm />} />
-          <Route path="/simulations" element={<Simulation />} />
-          <Route path="/" element={<Login />} />
-          
-      </Routes>
-  </BrowserRouter>
+  <AuthProvider>
+    <BrowserRouter>
+        <Routes>
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/board" element={<Board />} />
+            <Route path="/addfunds" element={<AddFunds />} />
+            <Route path="/test" element={<Test />} />
+            <Route path="/assetform" element={<AssetForm />} />
+            <Route path="/simulations" element={<Simulation />} />
+            <Route path="/" element={<Login />} />
+            
+        </Routes>
+    </BrowserRouter>
+  </AuthProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
