@@ -39,15 +39,23 @@ L’application repose sur **Akka** pour la gestion des acteurs et la concurrenc
    ```
 
 ## **Lancement du Projet**
-Les étapes de lancement sont détaillé dans d'autre README que ce soit pour un déploiement local ou via docker pour Akka.
+Les étapes de lancement sont détaillé dans d'autres README que ce soit pour un déploiement local ou via docker pour Akka.
 
-### **Local**
+### **Backend**
+
+#### **Local**
 Veuillez vous rendre ici :
   ```bash
    cd ProjetAkka/backend/akka
    ```
-### **Docker**
+#### **Docker**
 Veuillez vous rendre ici :
   ```bash
    cd ProjetAkka/backend/docker/
+   ```
+
+### **FrontEnd**
+Veuillez vous rendre ici :
+  ```bash
+   cd ProjetAkka/frontend/app-react
    ```
