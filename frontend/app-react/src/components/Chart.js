@@ -5,7 +5,7 @@ import './Chart.css';
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
-export default function Chart({ tmpdata }) {
+export default function Chart({ tmpdata,name }) {
   if (!tmpdata || tmpdata.length === 0) return <p>No data available for the chart.</p>;
   const sortedData = [...tmpdata].sort((a, b) => a.timestamp - b.timestamp);
   const data = {
@@ -15,7 +15,7 @@ export default function Chart({ tmpdata }) {
     }),
     datasets: [
       {
-        label: 'Portfolio',
+        label: name,
         data: sortedData.map(item => item.open),
         borderColor: 'blue',
         fill: false,

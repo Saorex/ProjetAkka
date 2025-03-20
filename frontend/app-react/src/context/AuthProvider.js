@@ -8,11 +8,11 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const token = Cookies.get('authToken');
+    const token = Cookies.get('user');
     if (token) {}}, []);
 
   const logout = () => {
-    Cookies.remove('authToken');
+    Cookies.remove('user');
     setUser(null);
   };
 

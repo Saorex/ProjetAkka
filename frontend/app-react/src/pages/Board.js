@@ -22,6 +22,7 @@ const Board = () => {
     SOL: { title: "Solana", description: "" },
     AVA: { title: "Avalanche", description: "" },
   });
+  const [select, setSelect] = useState('BTC');
 
   const [cdata, setcData] = useState({
     BTC: { data: "" },
@@ -75,12 +76,16 @@ const Board = () => {
     fetchData();
   }, []);
 
+  const handleCardClick = (key) => {
+    setSelect(key);
+  };
+
   return (
     <div className="Board">
       <Navbar className="navbar" onLeavingChange={setIsLeaving} />
       <div className="card-container">
         {symbols.map(({ key }) => (
-          <div key={key}>
+          <div className="card-crypto" key={key} onClick={() => handleCardClick(key)}>
             {cardData[key].description ? (
               <Card
                 title={cardData[key].title}
@@ -94,8 +99,8 @@ const Board = () => {
       </div>
       <main>
         <div className="dashboard">
-          {cdata['BTC'].data && cdata['BTC'].data.length > 0 ? (
-            <Chart className="chart-container" tmpdata={cdata['BTC'].data} />
+          {cdata[select].data && cdata[select].data.length > 0 ? (
+            <Chart className="chart-container" tmpdata={cdata[select].data} name={select}/>
           ) : (
             <p className="loding-chart">Loading chart data...</p>
           )}

@@ -7,10 +7,10 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function PieChart() {
   const data = {
-    labels: ['Renault', 'Sopra Steria', 'Alten'],
+    labels: ['Bitcoin', 'Ethereum', 'Binance Coin'],
     datasets: [
       {
-        label: 'Portfolio Distribution',
+        label: 'Posséder',
         data: [30, 40, 30],
         backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
         hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
