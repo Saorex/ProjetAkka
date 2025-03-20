@@ -27,12 +27,11 @@ export default function Navbar({onLeavingChange}) {
 
     return (
       <nav className="navbar">
-        <div className="flex items-center space-x-4">
+        <div className='nav-div'>
           <span className='username'>{user}</span>
-          <span onClick={handleDashboard}>Dashboard</span>
-          <span>Manage Assets</span>
-          <span onClick={handleAddFunds}>Ajouter des fonds</span>
-          <span onClick={logout}>Déconnexion</span>
+          <span className='nav-span' onClick={handleDashboard}>Dashboard</span>
+          <span className='nav-span' onClick={handleAddFunds}>Ajouter des fonds</span>
+          <span className='nav-span' onClick={logout}>Déconnexion</span>
         </div>
       </nav>
     );

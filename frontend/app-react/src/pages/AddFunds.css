@@ -35,7 +35,7 @@ html, body {
     animation: fadeInBottom 0.5s ease;
   }
   
-  .form {
+  .form-addfunds {
     background-color: #001833cc;
     padding: 20px;
     height: 50%;
@@ -49,12 +49,12 @@ html, body {
     animation: fadeInUp 0.5s ease;
   }
   
-  .h2 {
+  .form-addfunds h2 {
     color: #ffffff;
     margin-bottom: 10px;
   }
   
-  .input {
+  .form-addfunds input {
     padding: 8px;
     margin: 10px 0;
     border: none;
@@ -62,7 +62,7 @@ html, body {
     text-align: center;
   }
   
-  label {
+  .form-addfunds label {
     color: #ffffff;
   }
 

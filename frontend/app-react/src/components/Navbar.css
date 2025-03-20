@@ -9,6 +9,28 @@
   animation: fadeInTop 0.5s ease;
 }
 
+.username{
+  margin: auto 25% auto 25px;
+}
+
+.nav-div{
+  display: flex;
+  margin: auto auto auto 25px;
+  width: 100%;
+  gap: 30px;
+  transform: translateY(-5px);
+}
+
+.nav-span{
+  cursor: pointer;
+  transition: all 0.3s ease-in;
+}
+
+.nav-span:hover {
+  transform: scale(1.2);
+  color: #c2c3d6;
+}
+
 @keyframes fadeInTop {
   from {
       opacity: 0.5;
